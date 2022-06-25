@@ -10,52 +10,26 @@ class Trckr private constructor() {
 
         inline fun <reified T : Any> create(
             vararg adapters: TrackerAdapter,
-            strictMode: TrckrStrictMode = TrckrStrictMode.WARNING,
-            logger: TrckrLogger? = TrckrLogger.DEFAULT,
-        ): T = create(
-            trackerClass = T::class.java,
-            strictMode = strictMode,
-            logger = logger,
-            adapters = adapters,
-        )
+        ): T = create(trackerClass = T::class.java, adapters = adapters)
 
         @Suppress("Unchecked_Cast")
         fun <T : Any> create(
             trackerClass: Class<T>,
-            strictMode: TrckrStrictMode = TrckrStrictMode.WARNING,
-            logger: TrckrLogger? = TrckrLogger.DEFAULT,
             vararg adapters: TrackerAdapter,
         ): T {
-            if (!trackerClass.isInterface) {
-                error("Tracker declaration must be an interface.")
-            }
-            val adaptersList = adapters.toList()
-            val uniqueAdapters = getUniqueAdapters(strictMode, logger, adaptersList)
+            if (!trackerClass.isInterface) error("Tracker declaration must be an interface.")
 
             return Proxy.newProxyInstance(
                 trackerClass.classLoader,
                 arrayOf(trackerClass),
-                TrckrInvocationHandler(uniqueAdapters, strictMode, logger),
+                TrckrInvocationHandler(adapters.unique()),
             ) as T
         }
 
-        private fun getUniqueAdapters(
-            strictMode: TrckrStrictMode,
-            logger: TrckrLogger?,
-            adapters: List<TrackerAdapter>,
-        ): List<TrackerAdapter> {
-            if (strictMode == TrckrStrictMode.NONE) return adapters
-
-            val uniqueAdapterCount = adapters.groupBy { adapter -> adapter::class }.count()
-            // TODO: show which adapters not unique
-            if (adapters.size != uniqueAdapterCount) {
-                if (strictMode == TrckrStrictMode.WARNING) {
-                    logger?.log("Tracker adapters not unique.")
-                } else if (strictMode == TrckrStrictMode.ERROR) {
-                    error("Tracker adapters should be unique.")
-                }
-            }
-            return adapters
+        private fun Array<out TrackerAdapter>.unique(): List<TrackerAdapter> {
+            val uniqueAdapterCount = groupBy { adapter -> adapter::class }.count()
+            if (size != uniqueAdapterCount) error("Tracker adapters should be unique.")
+            return toList()
         }
     }
 }
