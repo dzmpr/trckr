@@ -6,13 +6,13 @@ import ru.cooked.trckr.annotations.Event
 import ru.cooked.trckr.annotations.Param
 import ru.cooked.trckr.annotations.SkipAdapters
 
-internal class TrackEventFactory private constructor(
+internal class EventInternalFactory private constructor(
     private val eventName: String,
     private val parameterNames: List<String>,
     val skippedAdapters: Set<KClass<out TrackerAdapter>>,
 ) {
 
-    fun newEvent(arguments: List<Any?>, converters: List<ParamConverter>): TrackEvent {
+    fun newEvent(arguments: List<Any?>, converters: List<ParamConverter>): EventInternal {
         if (parameterNames.size != arguments.size) {
             error("Incorrect arguments count for event: \"$eventName\".")
         }
@@ -21,7 +21,7 @@ internal class TrackEventFactory private constructor(
                 put(name, convertValueToString(arguments[index], name, converters))
             }
         }
-        return TrackEvent(eventName, parameters)
+        return EventInternal(eventName, parameters)
     }
 
     private fun convertValueToString(
@@ -37,13 +37,13 @@ internal class TrackEventFactory private constructor(
 
     companion object {
 
-        operator fun invoke(method: Method): TrackEventFactory {
+        operator fun invoke(method: Method): EventInternalFactory {
             val (event, skipAdapters) = getMethodAnnotations(method)
             val eventName = event.name.takeIf { it.isNotBlank() } ?: method.name
             val parameterNames = getParameterNames(method)
             val skippedAdapters = getSkippedAdapters(skipAdapters)
 
-            return TrackEventFactory(eventName, parameterNames, skippedAdapters)
+            return EventInternalFactory(eventName, parameterNames, skippedAdapters)
         }
 
         private fun getMethodAnnotations(method: Method): Pair<Event, SkipAdapters?> {
@@ -68,7 +68,7 @@ internal class TrackEventFactory private constructor(
     }
 }
 
-internal fun TrackEventFactory.newEvent(
+internal fun EventInternalFactory.newEvent(
     arguments: Array<out Any>?,
     converters: List<ParamConverter>,
 ) = newEvent(arguments.orEmpty().toList(), converters)

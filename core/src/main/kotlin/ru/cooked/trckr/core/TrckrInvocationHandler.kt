@@ -11,10 +11,10 @@ internal class TrckrInvocationHandler(
 ) : InvocationHandler {
 
     private val adapters = adaptersList.associateBy { adapter -> adapter::class }
-    private val factories = ConcurrentHashMap<Method, TrackEventFactory>()
+    private val factories = ConcurrentHashMap<Method, EventInternalFactory>()
 
     override fun invoke(proxy: Any, method: Method, arguments: Array<out Any>?): Any {
-        val factory = factories.getOrPut(method) { TrackEventFactory(method) }
+        val factory = factories.getOrPut(method) { EventInternalFactory(method) }
         val event = factory.newEvent(arguments, converters)
 
         getSuitableAdapters(method, factory.skippedAdapters).forEach { adapter ->
@@ -38,5 +38,5 @@ internal class TrckrInvocationHandler(
         return suitableAdapters
     }
 
-    private fun TrackerAdapter.track(event: TrackEvent) = trackEvent(event.name, event.parameters)
+    private fun TrackerAdapter.track(event: EventInternal) = trackEvent(event.name, event.parameters)
 }
