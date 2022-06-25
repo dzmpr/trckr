@@ -12,17 +12,27 @@ internal class TrackEventFactory private constructor(
     val skippedAdapters: Set<KClass<out TrackerAdapter>>,
 ) {
 
-    fun newEvent(arguments: List<Any>): TrackEvent {
+    fun newEvent(arguments: List<Any?>, converters: List<ParamConverter>): TrackEvent {
         if (parameterNames.size != arguments.size) {
             error("Incorrect arguments count for event: \"$eventName\".")
         }
         val parameters = buildMap {
             parameterNames.forEachIndexed { index, name ->
-                val value = arguments[index].toString()
-                put(name, value)
+                put(name, convertValueToString(arguments[index], name, converters))
             }
         }
         return TrackEvent(eventName, parameters)
+    }
+
+    private fun convertValueToString(
+        value: Any?,
+        paramName: String,
+        converters: List<ParamConverter>,
+    ): String {
+        if (value is String) return value
+        return converters.firstNotNullOfOrNull { converter ->
+            converter.convert(eventName, paramName, value)
+        } ?: error("Can't convert value \"$value\" to string, no suitable converter found!")
     }
 
     companion object {
@@ -58,5 +68,7 @@ internal class TrackEventFactory private constructor(
     }
 }
 
-internal fun TrackEventFactory.newEvent(arguments: Array<out Any>?) =
-    newEvent(arguments.orEmpty().toList())
+internal fun TrackEventFactory.newEvent(
+    arguments: Array<out Any>?,
+    converters: List<ParamConverter>,
+) = newEvent(arguments.orEmpty().toList(), converters)

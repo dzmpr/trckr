@@ -1,0 +1,14 @@
+package ru.cooked.trckr.core
+
+internal class PrimitivesConverter: GenericParamConverter() {
+
+    override fun convert(value: Any?): String? = when (value) {
+        null -> "null"
+        is Long,
+        is Int,
+        is Float,
+        is Double,
+        is Boolean -> value.toString()
+        else -> super.convert(value)
+    }
+}

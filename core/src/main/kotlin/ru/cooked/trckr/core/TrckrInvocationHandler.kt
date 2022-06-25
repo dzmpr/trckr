@@ -5,14 +5,17 @@ import java.lang.reflect.Method
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.KClass
 
-internal class TrckrInvocationHandler(adaptersList: List<TrackerAdapter>) : InvocationHandler {
+internal class TrckrInvocationHandler(
+    adaptersList: List<TrackerAdapter>,
+    private val converters: List<ParamConverter>,
+) : InvocationHandler {
 
     private val adapters = adaptersList.associateBy { adapter -> adapter::class }
     private val factories = ConcurrentHashMap<Method, TrackEventFactory>()
 
     override fun invoke(proxy: Any, method: Method, arguments: Array<out Any>?): Any {
         val factory = factories.getOrPut(method) { TrackEventFactory(method) }
-        val event = factory.newEvent(arguments)
+        val event = factory.newEvent(arguments, converters)
 
         getSuitableAdapters(method, factory.skippedAdapters).forEach { adapter ->
             adapters.getValue(adapter).track(event)
