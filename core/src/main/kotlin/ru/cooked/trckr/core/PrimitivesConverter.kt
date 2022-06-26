@@ -1,9 +1,10 @@
 package ru.cooked.trckr.core
 
-internal class PrimitivesConverter: GenericParamConverter() {
+internal class PrimitivesConverter : GenericParamConverter() {
 
     override fun convert(value: Any?): String? = when (value) {
         null -> "null"
+        is String -> value
         is Long,
         is Int,
         is Float,

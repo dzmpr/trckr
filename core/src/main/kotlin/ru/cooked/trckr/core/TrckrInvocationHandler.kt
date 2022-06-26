@@ -15,7 +15,7 @@ internal class TrckrInvocationHandler(
 
     override fun invoke(proxy: Any, method: Method, arguments: Array<out Any>?): Any {
         val factory = factories.getOrPut(method) { EventInternalFactory(method) }
-        val event = factory.newEvent(arguments, converters)
+        val event = factory.createEvent(arguments, converters)
 
         getSuitableAdapters(method, factory.skippedAdapters).forEach { adapter ->
             adapters.getValue(adapter).track(event)
