@@ -4,6 +4,8 @@ import java.lang.reflect.Method
 import kotlin.reflect.KClass
 import ru.cooked.trckr.annotations.Event
 import ru.cooked.trckr.annotations.SkipAdapters
+import ru.cooked.trckr.extensions.findAnnotation
+import ru.cooked.trckr.extensions.getAnnotation
 
 internal class EventInternalFactory private constructor(
     private val eventName: String,
@@ -36,20 +38,15 @@ internal class EventInternalFactory private constructor(
     companion object {
 
         operator fun invoke(method: Method): EventInternalFactory {
-            val (event, skipAdapters) = getMethodAnnotations(method)
+            val event = method.annotations.getAnnotation<Event>()
             val eventName = event.name.takeIf { it.isNotBlank() } ?: method.name
+
             val parameters = getParameters(method)
+
+            val skipAdapters = method.annotations.findAnnotation<SkipAdapters>()
             val skippedAdapters = getSkippedAdapters(skipAdapters)
 
             return EventInternalFactory(eventName, parameters, skippedAdapters)
-        }
-
-        private fun getMethodAnnotations(method: Method): Pair<Event, SkipAdapters?> {
-            val annotations = method.annotations
-            val eventAnnotation = annotations.find { it is Event } as? Event
-                ?: error("Tracker method \"${method.name}\" missing @Event annotation.")
-            val skipAdaptersAnnotation = annotations.find { it is SkipAdapters } as? SkipAdapters
-            return eventAnnotation to skipAdaptersAnnotation
         }
 
         private fun getParameters(

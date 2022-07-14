@@ -7,10 +7,8 @@ internal class TrckrBuilderTest {
 
     @Test
     fun `should fail when provided class is not an interface`() {
-        class TestClass
-
         assertFails {
-            Trckr.new(TestClass::class.java) {}
+            Trckr.new(this::class.java) {}
         }
     }
 
@@ -20,7 +18,7 @@ internal class TrckrBuilderTest {
     }
 
     @Test
-    fun `should fails when trying to register same adapter for second time`() {
+    fun `should fail when trying to register same adapter for second time`() {
         val adapter = TestAdapter()
 
         assertFails {
@@ -32,7 +30,7 @@ internal class TrckrBuilderTest {
     }
 
     @Test
-    fun `should fails when trying to register same converter for second time`() {
+    fun `should fail when trying to register same converter for second time`() {
         val converter = TestConverter()
 
         assertFails {
@@ -40,6 +38,27 @@ internal class TrckrBuilderTest {
                 addConverter(converter)
                 addConverter(converter)
             }
+        }
+    }
+
+    @Test
+    fun `should fail when at least one of interface methods has no Event annotation`() {
+        assertFails {
+            Trckr.new(IncompleteEventTestTracker::class.java) {}
+        }
+    }
+
+    @Test
+    fun `should fail when at least one of method parameters has no Param annotation`() {
+        assertFails {
+            Trckr.new(IncompleteParamTestTracker::class.java) {}
+        }
+    }
+
+    @Test
+    fun `should fail when at least one of interface method has return type other than Unit`() {
+        assertFails {
+            Trckr.new(TestTrackerWithNonUnitReturnType::class.java) {}
         }
     }
 }

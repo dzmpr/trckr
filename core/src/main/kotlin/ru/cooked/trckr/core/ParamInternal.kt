@@ -3,6 +3,8 @@ package ru.cooked.trckr.core
 import java.lang.reflect.Method
 import ru.cooked.trckr.annotations.Param
 import ru.cooked.trckr.annotations.SkipIfNull
+import ru.cooked.trckr.extensions.findAnnotation
+import ru.cooked.trckr.extensions.getAnnotation
 
 internal data class ParamInternal(
     val name: String,
@@ -14,13 +16,12 @@ internal data class ParamInternal(
         fun createParameters(
             method: Method,
         ): List<ParamInternal> = method.parameters.map { parameter ->
-            createParameter(method.name, parameter.annotations)
+            createParameter(parameter.annotations)
         }
 
-        private fun createParameter(methodName: String, annotations: Array<Annotation>): ParamInternal {
-            val param = annotations.find { it is Param } as? Param
-                ?: error("Tracker method \"$methodName\" has parameter with missing @Param annotation.")
-            val skipIfNull = annotations.find { it is SkipIfNull } != null
+        private fun createParameter(annotations: Array<Annotation>): ParamInternal {
+            val param = annotations.getAnnotation<Param>()
+            val skipIfNull = annotations.findAnnotation<SkipIfNull>() != null
             return ParamInternal(param.name, skipIfNull)
         }
     }
