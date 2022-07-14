@@ -30,10 +30,10 @@ internal class TrckrInvocationHandler(
         val registeredAdapters = adapters.keys
         val suitableAdapters = registeredAdapters - skippedAdapters
         if (suitableAdapters.isEmpty()) {
-            error("There is no suitable adapters for method \"${method.name}\".")
+            trckrError("There is no suitable adapters for method \"${method.name}\".")
         }
         if ((skippedAdapters - registeredAdapters).isNotEmpty()) {
-            error("Method \"${method.name}\" tries to skip adapters that are not registered.")
+            trckrError("Method \"${method.name}\" tries to skip adapters that are not registered.")
         }
         return suitableAdapters
     }

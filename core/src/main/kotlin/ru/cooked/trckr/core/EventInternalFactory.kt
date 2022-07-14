@@ -15,7 +15,7 @@ internal class EventInternalFactory private constructor(
 
     fun createEvent(arguments: List<Any?>, converters: List<ParamConverter>): EventInternal {
         if (parameters.size != arguments.size) {
-            error("Incorrect arguments count for event: \"$eventName\".")
+            trckrError("Incorrect arguments count for event: \"$eventName\".")
         }
         val parameters = buildMap {
             parameters.forEachIndexed { index, parameter ->
@@ -33,7 +33,7 @@ internal class EventInternalFactory private constructor(
         converters: List<ParamConverter>,
     ) = converters.firstNotNullOfOrNull { converter ->
         converter.convert(eventName, paramName, value)
-    } ?: error("Can't convert value \"$value\" to string, no suitable converter found!")
+    } ?: trckrError("Can't convert value \"$value\" to string, no suitable converter found!")
 
     companion object {
 

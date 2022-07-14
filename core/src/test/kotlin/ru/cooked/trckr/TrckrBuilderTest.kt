@@ -1,13 +1,14 @@
 package ru.cooked.trckr
 
-import kotlin.test.assertFails
+import kotlin.test.assertFailsWith
 import org.junit.jupiter.api.Test
+import ru.cooked.trckr.core.TrckrException
 
 internal class TrckrBuilderTest {
 
     @Test
     fun `should fail when provided class is not an interface`() {
-        assertFails {
+        assertFailsWith<TrckrException> {
             Trckr.new(this::class.java) {}
         }
     }
@@ -21,7 +22,7 @@ internal class TrckrBuilderTest {
     fun `should fail when trying to register same adapter for second time`() {
         val adapter = TestAdapter()
 
-        assertFails {
+        assertFailsWith<TrckrException> {
             Trckr.new(TestTracker::class.java) {
                 addAdapter(adapter)
                 addAdapter(adapter)
@@ -33,7 +34,7 @@ internal class TrckrBuilderTest {
     fun `should fail when trying to register same converter for second time`() {
         val converter = TestConverter()
 
-        assertFails {
+        assertFailsWith<TrckrException> {
             Trckr.new(TestTracker::class.java) {
                 addConverter(converter)
                 addConverter(converter)
@@ -43,21 +44,21 @@ internal class TrckrBuilderTest {
 
     @Test
     fun `should fail when at least one of interface methods has no Event annotation`() {
-        assertFails {
+        assertFailsWith<TrckrException> {
             Trckr.new(IncompleteEventTestTracker::class.java) {}
         }
     }
 
     @Test
     fun `should fail when at least one of method parameters has no Param annotation`() {
-        assertFails {
+        assertFailsWith<TrckrException> {
             Trckr.new(IncompleteParamTestTracker::class.java) {}
         }
     }
 
     @Test
     fun `should fail when at least one of interface method has return type other than Unit`() {
-        assertFails {
+        assertFailsWith<TrckrException> {
             Trckr.new(TestTrackerWithNonUnitReturnType::class.java) {}
         }
     }

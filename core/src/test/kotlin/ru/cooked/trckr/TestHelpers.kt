@@ -1,18 +1,18 @@
 package ru.cooked.trckr
 
-import ru.cooked.trckr.annotations.Event
-import ru.cooked.trckr.annotations.Param
-import ru.cooked.trckr.core.GenericParamConverter
-import ru.cooked.trckr.core.TrackerAdapter
+import ru.cooked.trckr.core.annotations.Event
+import ru.cooked.trckr.core.annotations.Param
+import ru.cooked.trckr.core.converter.GenericParamConverter
+import ru.cooked.trckr.core.adapter.TrackerAdapter
 
 internal interface TestTracker
 
 internal interface IncompleteEventTestTracker {
 
     @Event
-    fun methodtWithAnnotation()
+    fun methodWithAnnotation()
 
-    fun methodtWithoutAnnotation()
+    fun methodWithoutAnnotation()
 }
 
 internal interface IncompleteParamTestTracker {
