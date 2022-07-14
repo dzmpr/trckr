@@ -1,4 +1,4 @@
-package ru.cooked.trckr.annotations
+package ru.cooked.trckr.core.annotations
 
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)

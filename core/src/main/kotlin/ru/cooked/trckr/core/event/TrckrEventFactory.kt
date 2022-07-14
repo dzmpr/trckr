@@ -1,19 +1,23 @@
-package ru.cooked.trckr.core
+package ru.cooked.trckr.core.event
 
 import java.lang.reflect.Method
 import kotlin.reflect.KClass
-import ru.cooked.trckr.annotations.Event
-import ru.cooked.trckr.annotations.SkipAdapters
+import ru.cooked.trckr.core.annotations.Event
+import ru.cooked.trckr.core.annotations.SkipAdapters
+import ru.cooked.trckr.core.converter.ParamConverter
+import ru.cooked.trckr.core.param.TrckrParam
+import ru.cooked.trckr.core.adapter.TrackerAdapter
+import ru.cooked.trckr.core.trckrError
 import ru.cooked.trckr.extensions.findAnnotation
 import ru.cooked.trckr.extensions.getAnnotation
 
 internal class EventInternalFactory private constructor(
     private val eventName: String,
-    private val parameters: List<ParamInternal>,
+    private val parameters: List<TrckrParam>,
     val skippedAdapters: Set<KClass<out TrackerAdapter>>,
 ) {
 
-    fun createEvent(arguments: List<Any?>, converters: List<ParamConverter>): EventInternal {
+    fun createEvent(arguments: List<Any?>, converters: List<ParamConverter>): TrckrEvent {
         if (parameters.size != arguments.size) {
             trckrError("Incorrect arguments count for event: \"$eventName\".")
         }
@@ -24,7 +28,7 @@ internal class EventInternalFactory private constructor(
                 put(parameter.name, convertValueToString(arguments[index], parameter.name, converters))
             }
         }
-        return EventInternal(eventName, parameters)
+        return TrckrEvent(eventName, parameters)
     }
 
     private fun convertValueToString(
@@ -51,7 +55,9 @@ internal class EventInternalFactory private constructor(
 
         private fun getParameters(
             method: Method,
-        ) = if (method.parameterCount != 0) ParamInternal.createParameters(method) else emptyList()
+        ) = method.parameters.map { parameter ->
+            TrckrParam.createParameter(parameter)
+        }
 
         private fun getSkippedAdapters(skipAdapters: SkipAdapters?) =
             skipAdapters?.adapters?.toSet().orEmpty()

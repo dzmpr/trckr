@@ -4,11 +4,11 @@ import java.lang.reflect.Method
 import java.lang.reflect.Parameter
 import java.lang.reflect.Proxy
 import kotlin.reflect.KClass
-import ru.cooked.trckr.annotations.Event
-import ru.cooked.trckr.annotations.Param
-import ru.cooked.trckr.core.ParamConverter
-import ru.cooked.trckr.core.PrimitivesConverter
-import ru.cooked.trckr.core.TrackerAdapter
+import ru.cooked.trckr.core.annotations.Event
+import ru.cooked.trckr.core.annotations.Param
+import ru.cooked.trckr.core.converter.ParamConverter
+import ru.cooked.trckr.core.converter.PrimitivesConverter
+import ru.cooked.trckr.core.adapter.TrackerAdapter
 import ru.cooked.trckr.core.TrckrInvocationHandler
 import ru.cooked.trckr.core.trckrError
 import ru.cooked.trckr.extensions.hasAnnotation

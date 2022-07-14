@@ -1,4 +1,4 @@
-package ru.cooked.trckr.core
+package ru.cooked.trckr.core.adapter
 
 fun interface TrackerAdapter {
 
