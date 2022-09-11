@@ -4,13 +4,13 @@ import java.lang.reflect.Method
 import java.lang.reflect.Parameter
 import java.lang.reflect.Proxy
 import kotlin.reflect.KClass
+import ru.cooked.trckr.core.TrckrInvocationHandler
+import ru.cooked.trckr.core.adapter.TrackerAdapter
 import ru.cooked.trckr.core.annotations.Event
 import ru.cooked.trckr.core.annotations.Param
 import ru.cooked.trckr.core.converter.ParamConverter
 import ru.cooked.trckr.core.converter.PrimitivesConverter
-import ru.cooked.trckr.core.adapter.TrackerAdapter
-import ru.cooked.trckr.core.TrckrInvocationHandler
-import ru.cooked.trckr.core.trckrError
+import ru.cooked.trckr.core.ensureThat
 import ru.cooked.trckr.extensions.hasAnnotation
 
 class TrckrBuilder<T : Any> internal constructor(private val trackerClass: Class<T>) {
@@ -23,15 +23,15 @@ class TrckrBuilder<T : Any> internal constructor(private val trackerClass: Class
     private val converters = mutableMapOf<KClass<out ParamConverter>, ParamConverter>()
 
     fun addAdapter(adapter: TrackerAdapter) {
-        if (adapters.containsKey(adapter::class)) {
-            trckrError("Adapter \"${adapter::class.java.simpleName}\" already registered!")
+        ensureThat(!adapters.containsKey(adapter::class)) {
+            "Adapter \"${adapter::class.java.simpleName}\" already registered!"
         }
         adapters[adapter::class] = adapter
     }
 
     fun addConverter(converter: ParamConverter) {
-        if (converters.containsKey(converter::class)) {
-            trckrError("Converter \"${converter::class.java.simpleName}\" already registered!")
+        ensureThat(!converters.containsKey(converter::class)) {
+            "Converter \"${converter::class.java.simpleName}\" already registered!"
         }
         converters[converter::class] = converter
     }
@@ -52,8 +52,8 @@ class TrckrBuilder<T : Any> internal constructor(private val trackerClass: Class
     ) as T
 
     private fun verifyTrackerClass(trackerClass: Class<T>) {
-        if (!trackerClass.isInterface) {
-            trckrError("\"${trackerClass.simpleName}\" declaration must be an interface.")
+        ensureThat(trackerClass.isInterface) {
+            "\"${trackerClass.simpleName}\" declaration must be an interface."
         }
         trackerClass.methods.forEach { method ->
             verifyTrackerClassMethod(method)
@@ -61,11 +61,11 @@ class TrckrBuilder<T : Any> internal constructor(private val trackerClass: Class
     }
 
     private fun verifyTrackerClassMethod(method: Method) {
-        if (!method.annotations.hasAnnotation<Event>()) {
-            trckrError("Tracker method \"${method.name}\" missing @Event annotation.")
+        ensureThat(method.annotations.hasAnnotation<Event>()) {
+            "Tracker method \"${method.name}\" missing @Event annotation."
         }
-        if (method.returnType != Void.TYPE) {
-            trckrError("Tracker method \"${method.name}\" shouldn't return anything.")
+        ensureThat(method.returnType == Void.TYPE) {
+            "Tracker method \"${method.name}\" shouldn't return anything."
         }
         method.parameters.forEach { parameter ->
             verifyEventMethodParameter(method.name, parameter)
@@ -73,8 +73,8 @@ class TrckrBuilder<T : Any> internal constructor(private val trackerClass: Class
     }
 
     private fun verifyEventMethodParameter(methodName: String, parameter: Parameter) {
-        if (!parameter.annotations.hasAnnotation<Param>()) {
-            trckrError("Tracker method \"$methodName\" has parameter without @Param annotation.")
+        ensureThat(parameter.annotations.hasAnnotation<Param>()) {
+            "Tracker method \"$methodName\" has parameter without @Param annotation."
         }
     }
 }

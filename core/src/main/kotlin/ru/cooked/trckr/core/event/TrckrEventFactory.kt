@@ -2,12 +2,12 @@ package ru.cooked.trckr.core.event
 
 import java.lang.reflect.Method
 import kotlin.reflect.KClass
+import ru.cooked.trckr.core.TrckrException
+import ru.cooked.trckr.core.adapter.TrackerAdapter
 import ru.cooked.trckr.core.annotations.Event
 import ru.cooked.trckr.core.annotations.SkipAdapters
 import ru.cooked.trckr.core.converter.ParamConverter
 import ru.cooked.trckr.core.param.TrckrParam
-import ru.cooked.trckr.core.adapter.TrackerAdapter
-import ru.cooked.trckr.core.trckrError
 import ru.cooked.trckr.extensions.findAnnotation
 import ru.cooked.trckr.extensions.getAnnotation
 
@@ -18,9 +18,6 @@ internal class EventInternalFactory private constructor(
 ) {
 
     fun createEvent(arguments: List<Any?>, converters: List<ParamConverter>): TrckrEvent {
-        if (parameters.size != arguments.size) {
-            trckrError("Incorrect arguments count for event: \"$eventName\".")
-        }
         val parameters = buildMap {
             parameters.forEachIndexed { index, parameter ->
                 val argument = arguments[index]
@@ -37,7 +34,7 @@ internal class EventInternalFactory private constructor(
         converters: List<ParamConverter>,
     ) = converters.firstNotNullOfOrNull { converter ->
         converter.convert(eventName, paramName, value)
-    } ?: trckrError("Can't convert value \"$value\" to string, no suitable converter found!")
+    } ?: throw TrckrException("Can't convert value \"$value\" to string, no suitable converter found!")
 
     companion object {
 
