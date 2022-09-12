@@ -6,7 +6,8 @@ import ru.cooked.trckr.core.TrckrException
 import ru.cooked.trckr.core.adapter.TrackerAdapter
 import ru.cooked.trckr.core.annotations.Event
 import ru.cooked.trckr.core.annotations.SkipAdapters
-import ru.cooked.trckr.core.converter.ParamConverter
+import ru.cooked.trckr.core.converter.ParameterConverter
+import ru.cooked.trckr.core.converter.TypeConverter
 import ru.cooked.trckr.core.param.TrckrParam
 import ru.cooked.trckr.extensions.findAnnotation
 import ru.cooked.trckr.extensions.getAnnotation
@@ -17,23 +18,31 @@ internal class EventInternalFactory private constructor(
     val skippedAdapters: Set<KClass<out TrackerAdapter>>,
 ) {
 
-    fun createEvent(arguments: List<Any?>, converters: List<ParamConverter>): TrckrEvent {
+    fun createEvent(
+        arguments: List<Any?>,
+        typeConverters: List<TypeConverter>,
+        parameterConverters: List<ParameterConverter>,
+    ): TrckrEvent {
         val parameters = buildMap {
             parameters.forEachIndexed { index, parameter ->
                 val argument = arguments[index]
                 if (argument == null && parameter.skipIfNull) return@forEachIndexed
-                put(parameter.name, convertValueToString(arguments[index], parameter.name, converters))
+                val value = convertValue(argument, parameter.name, typeConverters, parameterConverters)
+                put(parameter.name, value)
             }
         }
         return TrckrEvent(eventName, parameters)
     }
 
-    private fun convertValueToString(
+    private fun convertValue(
         value: Any?,
         paramName: String,
-        converters: List<ParamConverter>,
-    ) = converters.firstNotNullOfOrNull { converter ->
+        typeConverters: List<TypeConverter>,
+        parameterConverters: List<ParameterConverter>,
+    ): String = parameterConverters.firstNotNullOfOrNull { converter ->
         converter.convert(eventName, paramName, value)
+    } ?: typeConverters.firstNotNullOfOrNull { converter ->
+        converter.convert(value)
     } ?: throw TrckrException("Can't convert value \"$value\" to string, no suitable converter found!")
 
     companion object {
@@ -63,5 +72,6 @@ internal class EventInternalFactory private constructor(
 
 internal fun EventInternalFactory.createEvent(
     arguments: Array<out Any>?,
-    converters: List<ParamConverter>,
-) = createEvent(arguments.orEmpty().toList(), converters)
+    typeConverters: List<TypeConverter>,
+    parameterConverters: List<ParameterConverter>,
+) = createEvent(arguments.orEmpty().toList(), typeConverters, parameterConverters)

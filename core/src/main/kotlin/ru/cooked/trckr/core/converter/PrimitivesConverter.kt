@@ -1,6 +1,6 @@
 package ru.cooked.trckr.core.converter
 
-internal class PrimitivesConverter : GenericParamConverter() {
+internal class PrimitivesConverter : TypeConverter {
 
     override fun convert(value: Any?): String? = when (value) {
         null -> "null"
@@ -10,6 +10,6 @@ internal class PrimitivesConverter : GenericParamConverter() {
         is Float,
         is Double,
         is Boolean -> value.toString()
-        else -> super.convert(value)
+        else -> null
     }
 }

@@ -1,9 +1,10 @@
 package ru.cooked.trckr
 
+import ru.cooked.trckr.core.adapter.TrackerAdapter
 import ru.cooked.trckr.core.annotations.Event
 import ru.cooked.trckr.core.annotations.Param
-import ru.cooked.trckr.core.converter.GenericParamConverter
-import ru.cooked.trckr.core.adapter.TrackerAdapter
+import ru.cooked.trckr.core.converter.ParameterConverter
+import ru.cooked.trckr.core.converter.TypeConverter
 
 internal interface TestTracker
 
@@ -38,7 +39,12 @@ internal class TestAdapter: TrackerAdapter {
     override fun trackEvent(eventName: String, parameters: Map<String, String>) = Unit
 }
 
-internal class TestConverter: GenericParamConverter() {
+internal class TestTypeConverter : TypeConverter {
 
-    override fun convert(value: Any?) = super.convert(value)
+    override fun convert(value: Any?) = null
+}
+
+internal class TestParameterConverter : ParameterConverter {
+
+    override fun convert(eventName: String, parameterName: String, value: Any?): String? = null
 }

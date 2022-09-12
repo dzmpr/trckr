@@ -8,8 +8,9 @@ import ru.cooked.trckr.core.TrckrInvocationHandler
 import ru.cooked.trckr.core.adapter.TrackerAdapter
 import ru.cooked.trckr.core.annotations.Event
 import ru.cooked.trckr.core.annotations.Param
-import ru.cooked.trckr.core.converter.ParamConverter
+import ru.cooked.trckr.core.converter.ParameterConverter
 import ru.cooked.trckr.core.converter.PrimitivesConverter
+import ru.cooked.trckr.core.converter.TypeConverter
 import ru.cooked.trckr.core.ensureThat
 import ru.cooked.trckr.extensions.hasAnnotation
 
@@ -20,24 +21,32 @@ class TrckrBuilder<T : Any> internal constructor(private val trackerClass: Class
     }
 
     private val adapters = mutableMapOf<KClass<out TrackerAdapter>, TrackerAdapter>()
-    private val converters = mutableMapOf<KClass<out ParamConverter>, ParamConverter>()
+    private val typeConverters = mutableMapOf<KClass<out TypeConverter>, TypeConverter>()
+    private val parameterConverters = mutableMapOf<KClass<out ParameterConverter>, ParameterConverter>()
 
     fun addAdapter(adapter: TrackerAdapter) {
         ensureThat(!adapters.containsKey(adapter::class)) {
-            "Adapter \"${adapter::class.java.simpleName}\" already registered!"
+            "Adapter \"${adapter::class.simpleName}\" already registered!"
         }
         adapters[adapter::class] = adapter
     }
 
-    fun addConverter(converter: ParamConverter) {
-        ensureThat(!converters.containsKey(converter::class)) {
-            "Converter \"${converter::class.java.simpleName}\" already registered!"
+    fun addTypeConverter(converter: TypeConverter) {
+        ensureThat(!typeConverters.containsKey(converter::class)) {
+            "TypeConverter \"${converter::class.simpleName}\" already registered!"
         }
-        converters[converter::class] = converter
+        typeConverters[converter::class] = converter
+    }
+
+    fun addParameterConverter(converter: ParameterConverter) {
+        ensureThat(!parameterConverters.containsKey(converter::class)) {
+            "ParameterConverter \"${converter::class.simpleName}\" already registered!"
+        }
+        parameterConverters[converter::class] = converter
     }
 
     internal fun build(): T {
-        addConverter(PrimitivesConverter())
+        addTypeConverter(PrimitivesConverter())
         return createTrackerProxy()
     }
 
@@ -47,7 +56,8 @@ class TrckrBuilder<T : Any> internal constructor(private val trackerClass: Class
         arrayOf(trackerClass),
         TrckrInvocationHandler(
             adaptersList = adapters.values.toList(),
-            converters = converters.values.toList(),
+            typeConverters = typeConverters.values.toList(),
+            parameterConverters = parameterConverters.values.toList(),
         ),
     ) as T
 

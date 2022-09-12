@@ -31,13 +31,25 @@ internal class TrckrBuilderTest {
     }
 
     @Test
-    fun `should fail when trying to register same converter for second time`() {
-        val converter = TestConverter()
+    fun `should fail when trying to register same type converter for second time`() {
+        val converter = TestTypeConverter()
 
         assertFailsWith<TrckrException> {
             Trckr.new(TestTracker::class.java) {
-                addConverter(converter)
-                addConverter(converter)
+                addTypeConverter(converter)
+                addTypeConverter(converter)
+            }
+        }
+    }
+
+    @Test
+    fun `should fail when trying to register same parameter converter for second time`() {
+        val converter = TestParameterConverter()
+
+        assertFailsWith<TrckrException> {
+            Trckr.new(TestTracker::class.java) {
+                addParameterConverter(converter)
+                addParameterConverter(converter)
             }
         }
     }

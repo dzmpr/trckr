@@ -1,6 +1,6 @@
 package ru.cooked.trckr.adapters
 
-import ru.cooked.trckr.core.TrackerAdapter
+import ru.cooked.trckr.core.adapter.TrackerAdapter
 
 class SimpleAdapter(private val adapterName: String) : TrackerAdapter {
 

@@ -1,12 +1,8 @@
 package ru.cooked.trckr.converters
 
-import ru.cooked.trckr.core.GenericParamConverter
+import ru.cooked.trckr.core.converter.TypeConverter
 
-class EnumConverter: GenericParamConverter() {
+class EnumConverter : TypeConverter {
 
-    override fun convert(value: Any?): String? = if (value is Enum<*>) {
-        value.name
-    } else {
-        super.convert(value)
-    }
+    override fun convert(value: Any?): String? = if (value is Enum<*>) value.name else null
 }
