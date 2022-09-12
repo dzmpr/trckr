@@ -36,7 +36,7 @@ internal interface TestTrackerWithNonUnitReturnType {
 
 internal class TestAdapter: TrackerAdapter {
 
-    override fun trackEvent(eventName: String, parameters: Map<String, String>) = Unit
+    override fun trackEvent(eventName: String, parameters: Map<String, Any?>) = Unit
 }
 
 internal class TestTypeConverter : TypeConverter {

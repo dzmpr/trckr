@@ -6,7 +6,7 @@ interface ParameterConverter {
      * @param eventName name of event for which this conversion performed
      * @param parameterName name of param for which this conversion performed
      * @param value value to be converted to string representation
-     * @return string representation of provided value if conversion successful or null otherwise
+     * @return converted value if conversion successful or null otherwise
      */
-    fun convert(eventName: String, parameterName: String, value: Any?): String?
+    fun convert(eventName: String, parameterName: String, value: Any?): Any?
 }

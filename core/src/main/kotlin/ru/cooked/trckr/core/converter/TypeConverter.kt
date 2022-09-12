@@ -4,7 +4,7 @@ interface TypeConverter {
 
     /**
      * @param value value to be converted to string representation
-     * @return string representation of provided value if conversion successful or null otherwise
+     * @return converted value if conversion successful or null otherwise
      */
-    fun convert(value: Any?): String?
+    fun convert(value: Any?): Any?
 }

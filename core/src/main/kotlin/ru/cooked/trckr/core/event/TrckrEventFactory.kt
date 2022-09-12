@@ -39,7 +39,7 @@ internal class EventInternalFactory private constructor(
         paramName: String,
         typeConverters: List<TypeConverter>,
         parameterConverters: List<ParameterConverter>,
-    ): String = parameterConverters.firstNotNullOfOrNull { converter ->
+    ): Any = parameterConverters.firstNotNullOfOrNull { converter ->
         converter.convert(eventName, paramName, value)
     } ?: typeConverters.firstNotNullOfOrNull { converter ->
         converter.convert(value)
