@@ -74,4 +74,11 @@ internal class TrckrBuilderTest {
             Trckr.new(TestTrackerWithNonUnitReturnType::class.java) {}
         }
     }
+
+    @Test
+    fun `should fail when at least one of interface methods has both SkipIfNull and TrackNull annotations`() {
+        assertFailsWith<TrckrException> {
+            Trckr.new(TestTrackerWithIncompatibleParamAnnotations::class.java) {}
+        }
+    }
 }

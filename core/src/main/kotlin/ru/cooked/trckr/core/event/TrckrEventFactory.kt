@@ -26,7 +26,13 @@ internal class EventInternalFactory private constructor(
         val parameters = buildMap {
             parameters.forEachIndexed { index, parameter ->
                 val argument = arguments[index]
-                if (argument == null && parameter.skipIfNull) return@forEachIndexed
+                if (argument == null) {
+                    if (parameter.skipIfNull) return@forEachIndexed
+                    if (parameter.trackNull) {
+                        put(parameter.name, null)
+                        return@forEachIndexed
+                    }
+                }
                 val value = convertValue(argument, parameter.name, typeConverters, parameterConverters)
                 put(parameter.name, value)
             }

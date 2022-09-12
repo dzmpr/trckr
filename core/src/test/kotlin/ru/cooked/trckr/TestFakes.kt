@@ -3,6 +3,8 @@ package ru.cooked.trckr
 import ru.cooked.trckr.core.adapter.TrackerAdapter
 import ru.cooked.trckr.core.annotations.Event
 import ru.cooked.trckr.core.annotations.Param
+import ru.cooked.trckr.core.annotations.SkipIfNull
+import ru.cooked.trckr.core.annotations.TrackNull
 import ru.cooked.trckr.core.converter.ParameterConverter
 import ru.cooked.trckr.core.converter.TypeConverter
 
@@ -32,6 +34,16 @@ internal interface TestTrackerWithNonUnitReturnType {
 
     @Event
     fun methodWithReturn(): Int
+}
+
+internal interface TestTrackerWithIncompatibleParamAnnotations {
+    @Event
+    fun method(
+        @TrackNull
+        @SkipIfNull
+        @Param(name = "name")
+        parameter: Int?,
+    )
 }
 
 internal class TestAdapter: TrackerAdapter {

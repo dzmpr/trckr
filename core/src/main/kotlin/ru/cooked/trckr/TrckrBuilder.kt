@@ -8,6 +8,8 @@ import ru.cooked.trckr.core.TrckrInvocationHandler
 import ru.cooked.trckr.core.adapter.TrackerAdapter
 import ru.cooked.trckr.core.annotations.Event
 import ru.cooked.trckr.core.annotations.Param
+import ru.cooked.trckr.core.annotations.SkipIfNull
+import ru.cooked.trckr.core.annotations.TrackNull
 import ru.cooked.trckr.core.converter.ParameterConverter
 import ru.cooked.trckr.core.converter.PrimitivesConverter
 import ru.cooked.trckr.core.converter.TypeConverter
@@ -85,6 +87,11 @@ class TrckrBuilder<T : Any> internal constructor(private val trackerClass: Class
     private fun verifyEventMethodParameter(methodName: String, parameter: Parameter) {
         ensureThat(parameter.annotations.hasAnnotation<Param>()) {
             "Tracker method \"$methodName\" has parameter without @Param annotation."
+        }
+        val hasSkipIfNull = parameter.annotations.hasAnnotation<SkipIfNull>()
+        val hasTrackNull = parameter.annotations.hasAnnotation<TrackNull>()
+        ensureThat(!hasSkipIfNull || !hasTrackNull) {
+            "Parameter of \"$methodName\" should be annotated with @SkipIfNull either @TrackNull."
         }
     }
 }
