@@ -7,8 +7,8 @@ import kotlin.reflect.KClass
 import ru.cooked.trckr.core.adapter.TrackerAdapter
 import ru.cooked.trckr.core.converter.ParameterConverter
 import ru.cooked.trckr.core.converter.TypeConverter
-import ru.cooked.trckr.core.event.EventInternalFactory
 import ru.cooked.trckr.core.event.TrckrEvent
+import ru.cooked.trckr.core.event.TrckrEventFactory
 import ru.cooked.trckr.core.event.createEvent
 
 internal class TrckrInvocationHandler(
@@ -18,12 +18,12 @@ internal class TrckrInvocationHandler(
 ) : InvocationHandler {
 
     private val adapters = adaptersList.associateBy { adapter -> adapter::class }
-    private val factories = ConcurrentHashMap<Method, EventInternalFactory>().withDefault { method ->
-        EventInternalFactory(method)
+    private val factories = ConcurrentHashMap<Method, TrckrEventFactory>().withDefault { method ->
+        TrckrEventFactory.getFactory(method)
     }
 
-    override fun invoke(proxy: Any, method: Method, arguments: Array<out Any>?): Any {
-        val factory = getFactory(method)
+    override fun invoke(proxy: Any, method: Method, arguments: Array<out Any?>?): Any {
+        val factory = factories.getValue(method)
         val event = factory.createEvent(arguments, typeConverters, parameterConverters)
 
         getSuitableAdapters(method, factory.skippedAdapters).forEach { adapter ->
@@ -49,6 +49,4 @@ internal class TrckrInvocationHandler(
     }
 
     private fun TrackerAdapter.track(event: TrckrEvent) = trackEvent(event.name, event.parameters)
-
-    private fun getFactory(method: Method) = factories.getValue(method)
 }

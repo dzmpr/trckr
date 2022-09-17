@@ -46,7 +46,7 @@ internal interface TestTrackerWithIncompatibleParamAnnotations {
     )
 }
 
-internal class TestAdapter: TrackerAdapter {
+internal class TestAdapter : TrackerAdapter {
 
     override fun trackEvent(eventName: String, parameters: Map<String, Any?>) = Unit
 }

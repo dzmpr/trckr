@@ -12,7 +12,7 @@ import ru.cooked.trckr.core.param.TrckrParam
 import ru.cooked.trckr.extensions.findAnnotation
 import ru.cooked.trckr.extensions.getAnnotation
 
-internal class EventInternalFactory private constructor(
+internal data class TrckrEventFactory constructor(
     private val eventName: String,
     private val parameters: List<TrckrParam>,
     val skippedAdapters: Set<KClass<out TrackerAdapter>>,
@@ -23,7 +23,7 @@ internal class EventInternalFactory private constructor(
         typeConverters: List<TypeConverter>,
         parameterConverters: List<ParameterConverter>,
     ): TrckrEvent {
-        val parameters = buildMap {
+        val eventParameters = buildMap {
             parameters.forEachIndexed { index, parameter ->
                 val argument = arguments[index]
                 if (argument == null) {
@@ -37,7 +37,7 @@ internal class EventInternalFactory private constructor(
                 put(parameter.name, value)
             }
         }
-        return TrckrEvent(eventName, parameters)
+        return TrckrEvent(eventName, eventParameters)
     }
 
     private fun convertValue(
@@ -53,7 +53,7 @@ internal class EventInternalFactory private constructor(
 
     companion object {
 
-        operator fun invoke(method: Method): EventInternalFactory {
+        fun getFactory(method: Method): TrckrEventFactory {
             val event = method.annotations.getAnnotation<Event>()
             val eventName = event.name.takeIf { it.isNotBlank() } ?: method.name
 
@@ -62,7 +62,7 @@ internal class EventInternalFactory private constructor(
             val skipAdapters = method.annotations.findAnnotation<SkipAdapters>()
             val skippedAdapters = getSkippedAdapters(skipAdapters)
 
-            return EventInternalFactory(eventName, parameters, skippedAdapters)
+            return TrckrEventFactory(eventName, parameters, skippedAdapters)
         }
 
         private fun getParameters(
@@ -76,8 +76,8 @@ internal class EventInternalFactory private constructor(
     }
 }
 
-internal fun EventInternalFactory.createEvent(
-    arguments: Array<out Any>?,
+internal fun TrckrEventFactory.createEvent(
+    arguments: Array<out Any?>?,
     typeConverters: List<TypeConverter>,
     parameterConverters: List<ParameterConverter>,
 ) = createEvent(arguments.orEmpty().toList(), typeConverters, parameterConverters)
