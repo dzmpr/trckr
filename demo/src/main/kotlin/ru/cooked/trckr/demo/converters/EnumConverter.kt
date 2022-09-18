@@ -1,4 +1,4 @@
-package ru.cooked.trckr.converters
+package ru.cooked.trckr.demo.converters
 
 import ru.cooked.trckr.core.converter.TypeConverter
 

@@ -1,4 +1,4 @@
-package ru.cooked.trckr.adapters
+package ru.cooked.trckr.demo.adapters
 
 import ru.cooked.trckr.core.adapter.TrackerAdapter
 

@@ -1,13 +1,13 @@
-package ru.cooked.trckr.tracker
+package ru.cooked.trckr.demo.tracker
 
-import ru.cooked.trckr.adapters.AdjustTrackingAdapter
-import ru.cooked.trckr.adapters.AmplitudeTrackingAdapter
-import ru.cooked.trckr.adapters.FirebaseTrackingAdapter
 import ru.cooked.trckr.core.annotations.Event
 import ru.cooked.trckr.core.annotations.Param
 import ru.cooked.trckr.core.annotations.SkipAdapters
 import ru.cooked.trckr.core.annotations.SkipIfNull
-import ru.cooked.trckr.tracker.data.SearchSource
+import ru.cooked.trckr.demo.adapters.AdjustTrackingAdapter
+import ru.cooked.trckr.demo.adapters.AmplitudeTrackingAdapter
+import ru.cooked.trckr.demo.adapters.FirebaseTrackingAdapter
+import ru.cooked.trckr.demo.tracker.data.SearchSource
 
 interface ApplicationTracker {
 

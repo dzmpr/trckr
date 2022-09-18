@@ -1,12 +1,13 @@
-package ru.cooked.trckr
+package ru.cooked.trckr.demo
 
-import ru.cooked.trckr.adapters.AdjustTrackingAdapter
-import ru.cooked.trckr.adapters.AmplitudeTrackingAdapter
-import ru.cooked.trckr.adapters.FirebaseTrackingAdapter
-import ru.cooked.trckr.converters.EnumConverter
-import ru.cooked.trckr.converters.StopAppConverter
-import ru.cooked.trckr.tracker.ApplicationTracker
-import ru.cooked.trckr.tracker.data.SearchSource
+import ru.cooked.trckr.Trckr
+import ru.cooked.trckr.demo.adapters.AdjustTrackingAdapter
+import ru.cooked.trckr.demo.adapters.AmplitudeTrackingAdapter
+import ru.cooked.trckr.demo.adapters.FirebaseTrackingAdapter
+import ru.cooked.trckr.demo.converters.EnumConverter
+import ru.cooked.trckr.demo.converters.StopAppConverter
+import ru.cooked.trckr.demo.tracker.ApplicationTracker
+import ru.cooked.trckr.demo.tracker.data.SearchSource
 
 fun getTracker(): ApplicationTracker = Trckr {
     addAdapter(FirebaseTrackingAdapter())

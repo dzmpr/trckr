@@ -4,15 +4,12 @@ plugins {
     kotlin("jvm") version "1.7.10"
 }
 
-group = "ru.cooked"
-version = "0.9.0-alpha"
-
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation(project("core"))
+    implementation(project(":core"))
     testImplementation(kotlin("test"))
 }
 
