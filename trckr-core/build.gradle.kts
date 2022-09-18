@@ -4,7 +4,7 @@ plugins {
     kotlin("jvm") version "1.7.10"
 }
 
-group = "ru.cooked"
+group = "ru.cooked.trckr"
 version = "0.9.0-alpha"
 
 repositories {
