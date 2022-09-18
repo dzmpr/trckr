@@ -30,8 +30,7 @@ flowchart TD;
 ### Skip certain adapters
 It's not always needed to send event to all registered adapters. To use such methods in common tracker interface you can annotate it with `@SkipAdapters` annotation and pass adapter classes that should be skipped.
 ```kotlin
-fun ExampleTracker {
-    ...
+interface ExampleTracker {
 
     @Event
     @SkipAdapters(FirebaseAdapter::class)
@@ -45,10 +44,9 @@ flowchart TD;
     A --pay--> C[Amplitude] & D[Adjust];
  ```
 ### Skip null parameters
-Nullable parameters by default converts to string as "null". But if you want to skip such parameter you can annotate it with `@SkipIfNull` annotation and it will be send only if value is not null.
+Nullable parameters by default converts to string as "null". But if you want to skip such parameter you can annotate it with `@SkipIfNull` annotation, and it will be sent only if value is not null.
 ```kotlin
-fun ExampleTracker {
-    ...
+interface ExampleTracker {
     
     @Event
     fun userSearch(
@@ -58,16 +56,31 @@ fun ExampleTracker {
     )
 }
 ```
-### Parameter converters
-To cleanup call place you can register parameter converter that would convert parameter value to desired string format. You can convert all values of specific type or just convert individual parameter based on event and parameter names. By default trckr converts `Long`, `Int`, `Float`, `Double`, `Boolean` to it's string representation and `null` to `"null"` string.
+### Track null parameters
+Parameter converter or type converter should convert value to any not null type. If you need to null will be tracked explicitly you can annotate it with `@TrackNull` annotation.
 ```kotlin
-class EnumConverter: GenericParamConverter() {
+interface ExampleTracker {
     
-    fun convert(value: Any?): String? {
+    @Event
+    fun userSearch(
+        @TrackNull
+        @Param("query")
+        query: String? = null,
+    )
+}
+```
+## Converters
+To clean up call place you can register converter that would convert parameter value to desired format.
+### Type converters
+Type converter can convert parameter value based only on the value itself. It's suitable when you need to convert all values of certain type.
+```kotlin
+class EnumConverter : TypeConverter {
+    
+    fun convert(value: Any?): Any? {
         return if (value is Enum<*>) {
             value.name
         } else {
-            super.convert(value)
+            null
         }
     }
 }
@@ -76,4 +89,34 @@ val tracker: ExampleTracker = Trckr.new {
     ...
     addConverter(EnumConverter())
 }
+```
+### Parameter converters
+Parameter converted can convert parameter value based on event name, parameter name and passed value. It's allows to convert specific values, even if they are typed with type that converts to another representation by type parameter. 
+```kotlin
+interface ExampleTracker {
+    
+    @Event
+    fun event(
+        @Param("first") first: Int,
+        @Param("second") second: Int,
+    )
+}
+
+class FirstConverter : ParameterConverter {
+    
+    fun convert(eventName: String, parameterName: String, value: Any?): Any? {
+        return if (event == "event" && parameterName == "first") {
+            val isPositive = (value as Int) > 0
+            if (isPositive) "Positive" else "Negative"
+        } else {
+            null
+        }
+    }
+}
+
+val tracker: ExampleTracker = Trckr.new {
+    ...
+    addConverter(FirstConverter())
+}
+tracker.event(first = -10, second = 20)
 ```

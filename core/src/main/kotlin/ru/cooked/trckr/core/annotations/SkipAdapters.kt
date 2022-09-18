@@ -1,7 +1,7 @@
-package ru.cooked.trckr.annotations
+package ru.cooked.trckr.core.annotations
 
 import kotlin.reflect.KClass
-import ru.cooked.trckr.core.TrackerAdapter
+import ru.cooked.trckr.core.adapter.TrackerAdapter
 
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)

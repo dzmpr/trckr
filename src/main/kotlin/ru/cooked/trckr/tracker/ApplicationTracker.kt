@@ -3,10 +3,10 @@ package ru.cooked.trckr.tracker
 import ru.cooked.trckr.adapters.AdjustTrackingAdapter
 import ru.cooked.trckr.adapters.AmplitudeTrackingAdapter
 import ru.cooked.trckr.adapters.FirebaseTrackingAdapter
-import ru.cooked.trckr.annotations.Event
-import ru.cooked.trckr.annotations.Param
-import ru.cooked.trckr.annotations.SkipAdapters
-import ru.cooked.trckr.annotations.SkipIfNull
+import ru.cooked.trckr.core.annotations.Event
+import ru.cooked.trckr.core.annotations.Param
+import ru.cooked.trckr.core.annotations.SkipAdapters
+import ru.cooked.trckr.core.annotations.SkipIfNull
 import ru.cooked.trckr.tracker.data.SearchSource
 
 interface ApplicationTracker {
@@ -15,9 +15,9 @@ interface ApplicationTracker {
     @SkipAdapters(AdjustTrackingAdapter::class)
     fun appLaunched()
 
-    @Event("Stop app")
+    @Event(EVENT_STOP_APP)
     @SkipAdapters(AmplitudeTrackingAdapter::class)
-    fun appStopped(@Param("App stopped") isForceStopped: Boolean)
+    fun appStopped(@Param(PARAM_APP_STOPPED) isForceStopped: Boolean)
 
     @Event
     @SkipAdapters(
@@ -28,4 +28,9 @@ interface ApplicationTracker {
         @Param("query") @SkipIfNull query: String?,
         @Param("Search opened from") source: SearchSource,
     )
+
+    companion object {
+        const val EVENT_STOP_APP = "Stop app"
+        const val PARAM_APP_STOPPED = "App stopped"
+    }
 }

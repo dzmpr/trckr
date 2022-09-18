@@ -1,16 +1,15 @@
 package ru.cooked.trckr
 
-import kotlin.test.assertFails
+import kotlin.test.assertFailsWith
 import org.junit.jupiter.api.Test
+import ru.cooked.trckr.core.TrckrException
 
 internal class TrckrBuilderTest {
 
     @Test
     fun `should fail when provided class is not an interface`() {
-        class TestClass
-
-        assertFails {
-            Trckr.new(TestClass::class.java) {}
+        assertFailsWith<TrckrException> {
+            Trckr.new(this::class.java) {}
         }
     }
 
@@ -20,10 +19,10 @@ internal class TrckrBuilderTest {
     }
 
     @Test
-    fun `should fails when trying to register same adapter for second time`() {
+    fun `should fail when trying to register same adapter for second time`() {
         val adapter = TestAdapter()
 
-        assertFails {
+        assertFailsWith<TrckrException> {
             Trckr.new(TestTracker::class.java) {
                 addAdapter(adapter)
                 addAdapter(adapter)
@@ -32,14 +31,54 @@ internal class TrckrBuilderTest {
     }
 
     @Test
-    fun `should fails when trying to register same converter for second time`() {
-        val converter = TestConverter()
+    fun `should fail when trying to register same type converter for second time`() {
+        val converter = TestTypeConverter()
 
-        assertFails {
+        assertFailsWith<TrckrException> {
             Trckr.new(TestTracker::class.java) {
-                addConverter(converter)
-                addConverter(converter)
+                addTypeConverter(converter)
+                addTypeConverter(converter)
             }
+        }
+    }
+
+    @Test
+    fun `should fail when trying to register same parameter converter for second time`() {
+        val converter = TestParameterConverter()
+
+        assertFailsWith<TrckrException> {
+            Trckr.new(TestTracker::class.java) {
+                addParameterConverter(converter)
+                addParameterConverter(converter)
+            }
+        }
+    }
+
+    @Test
+    fun `should fail when at least one of interface methods has no Event annotation`() {
+        assertFailsWith<TrckrException> {
+            Trckr.new(IncompleteEventTestTracker::class.java) {}
+        }
+    }
+
+    @Test
+    fun `should fail when at least one of method parameters has no Param annotation`() {
+        assertFailsWith<TrckrException> {
+            Trckr.new(IncompleteParamTestTracker::class.java) {}
+        }
+    }
+
+    @Test
+    fun `should fail when at least one of interface method has return type other than Unit`() {
+        assertFailsWith<TrckrException> {
+            Trckr.new(TestTrackerWithNonUnitReturnType::class.java) {}
+        }
+    }
+
+    @Test
+    fun `should fail when at least one of interface methods has both SkipIfNull and TrackNull annotations`() {
+        assertFailsWith<TrckrException> {
+            Trckr.new(TestTrackerWithIncompatibleParamAnnotations::class.java) {}
         }
     }
 }
