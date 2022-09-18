@@ -1,4 +1,4 @@
-package ru.cooked.trckr
+package ru.cooked.trckr.core
 
 class Trckr private constructor() {
 

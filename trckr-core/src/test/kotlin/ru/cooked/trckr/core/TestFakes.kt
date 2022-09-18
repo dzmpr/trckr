@@ -1,4 +1,4 @@
-package ru.cooked.trckr
+package ru.cooked.trckr.core
 
 import ru.cooked.trckr.core.adapter.TrackerAdapter
 import ru.cooked.trckr.core.annotations.Event

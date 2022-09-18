@@ -1,6 +1,6 @@
-package ru.cooked.trckr.extensions
+package ru.cooked.trckr.core.extensions
 
-import ru.cooked.trckr.TrckrBuilder
+import ru.cooked.trckr.core.TrckrBuilder
 import ru.cooked.trckr.core.adapter.TrackerAdapter
 import ru.cooked.trckr.core.converter.ParameterConverter
 import ru.cooked.trckr.core.converter.TypeConverter

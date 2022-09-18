@@ -1,10 +1,9 @@
-package ru.cooked.trckr
+package ru.cooked.trckr.core
 
 import java.lang.reflect.Method
 import java.lang.reflect.Parameter
 import java.lang.reflect.Proxy
 import kotlin.reflect.KClass
-import ru.cooked.trckr.core.TrckrInvocationHandler
 import ru.cooked.trckr.core.adapter.TrackerAdapter
 import ru.cooked.trckr.core.annotations.Event
 import ru.cooked.trckr.core.annotations.Param
@@ -13,8 +12,7 @@ import ru.cooked.trckr.core.annotations.TrackNull
 import ru.cooked.trckr.core.converter.ParameterConverter
 import ru.cooked.trckr.core.converter.PrimitivesConverter
 import ru.cooked.trckr.core.converter.TypeConverter
-import ru.cooked.trckr.core.ensureThat
-import ru.cooked.trckr.extensions.hasAnnotation
+import ru.cooked.trckr.core.extensions.hasAnnotation
 
 class TrckrBuilder<T : Any> internal constructor(private val trackerClass: Class<T>) {
 

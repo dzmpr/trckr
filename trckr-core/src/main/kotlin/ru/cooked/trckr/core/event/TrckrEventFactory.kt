@@ -8,9 +8,9 @@ import ru.cooked.trckr.core.annotations.Event
 import ru.cooked.trckr.core.annotations.SkipAdapters
 import ru.cooked.trckr.core.converter.ParameterConverter
 import ru.cooked.trckr.core.converter.TypeConverter
+import ru.cooked.trckr.core.extensions.findAnnotation
+import ru.cooked.trckr.core.extensions.getAnnotation
 import ru.cooked.trckr.core.param.TrckrParam
-import ru.cooked.trckr.extensions.findAnnotation
-import ru.cooked.trckr.extensions.getAnnotation
 
 internal data class TrckrEventFactory constructor(
     private val eventName: String,

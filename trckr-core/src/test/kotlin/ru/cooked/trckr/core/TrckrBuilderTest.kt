@@ -1,8 +1,7 @@
-package ru.cooked.trckr
+package ru.cooked.trckr.core
 
 import kotlin.test.assertFailsWith
 import org.junit.jupiter.api.Test
-import ru.cooked.trckr.core.TrckrException
 
 internal class TrckrBuilderTest {
 

@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":core"))
+    implementation(project(":trckr-core"))
     testImplementation(kotlin("test"))
 }
 

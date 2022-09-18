@@ -4,8 +4,8 @@ import java.lang.reflect.Parameter
 import ru.cooked.trckr.core.annotations.Param
 import ru.cooked.trckr.core.annotations.SkipIfNull
 import ru.cooked.trckr.core.annotations.TrackNull
-import ru.cooked.trckr.extensions.findAnnotation
-import ru.cooked.trckr.extensions.getAnnotation
+import ru.cooked.trckr.core.extensions.findAnnotation
+import ru.cooked.trckr.core.extensions.getAnnotation
 
 internal data class TrckrParam(
     val name: String,

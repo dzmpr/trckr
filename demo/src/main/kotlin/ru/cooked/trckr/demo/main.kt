@@ -1,6 +1,6 @@
 package ru.cooked.trckr.demo
 
-import ru.cooked.trckr.Trckr
+import ru.cooked.trckr.core.Trckr
 import ru.cooked.trckr.demo.adapters.AdjustTrackingAdapter
 import ru.cooked.trckr.demo.adapters.AmplitudeTrackingAdapter
 import ru.cooked.trckr.demo.adapters.FirebaseTrackingAdapter

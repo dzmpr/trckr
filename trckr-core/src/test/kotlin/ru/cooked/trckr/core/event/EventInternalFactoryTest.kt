@@ -9,7 +9,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import org.junit.jupiter.api.Test
-import ru.cooked.trckr.TestAdapter
+import ru.cooked.trckr.core.TestAdapter
 import ru.cooked.trckr.core.TrckrException
 import ru.cooked.trckr.core.adapter.TrackerAdapter
 import ru.cooked.trckr.core.annotations.Event
