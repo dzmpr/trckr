@@ -1,3 +1,5 @@
 
 rootProject.name = "trckr"
-include("core")
+
+include("trckr-core")
+include("demo")
