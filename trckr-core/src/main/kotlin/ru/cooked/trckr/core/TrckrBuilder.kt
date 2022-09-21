@@ -55,7 +55,7 @@ class TrckrBuilder<T : Any> internal constructor(private val trackerClass: Class
         trackerClass.classLoader,
         arrayOf(trackerClass),
         TrckrInvocationHandler(
-            adaptersList = adapters.values.toList(),
+            adapters = adapters.values.toList(),
             typeConverters = typeConverters.values.toList(),
             parameterConverters = parameterConverters.values.toList(),
         ),

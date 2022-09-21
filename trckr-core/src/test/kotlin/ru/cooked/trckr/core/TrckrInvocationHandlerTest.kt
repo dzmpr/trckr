@@ -9,7 +9,6 @@ import java.lang.reflect.Method
 import java.lang.reflect.Parameter
 import kotlin.reflect.KClass
 import kotlin.test.BeforeTest
-import kotlin.test.assertFailsWith
 import org.junit.jupiter.api.Test
 import ru.cooked.trckr.core.adapter.TrackerAdapter
 import ru.cooked.trckr.core.annotations.Event
@@ -55,7 +54,7 @@ class TrckrInvocationHandlerTest {
         val secondAdapter = mockk<SecondAdapter>()
         every { firstAdapter.trackEvent(any(), any()) } just Runs
         every { secondAdapter.trackEvent(any(), any()) } just Runs
-        mockMethod(skippedAdapters = arrayOf(secondAdapter::class))
+        mockMethod(skippedAdapters = arrayOf(SecondAdapter::class))
 
         createInvocationHandler(adaptersList = listOf(firstAdapter, secondAdapter)).apply {
             invoke(Unit, methodMock, arguments = arrayOf(defaultParameterArgument))
@@ -65,30 +64,23 @@ class TrckrInvocationHandlerTest {
             defaultParameterName to defaultParameterArgument,
         )
         verify { firstAdapter.trackEvent(defaultMethodName, expectedParameters) }
-        verify(exactly = 0) { secondAdapter.trackEvent(defaultMethodName, expectedParameters) }
+        verify(exactly = 0) { secondAdapter.trackEvent(any(), any()) }
     }
 
     @Test
-    fun `should fail to track event when there are no suitable adapters for event`() {
+    fun `should not track event to any adapter when all registered adapters skipped for this event`() {
         val firstAdapter = mockk<FirstAdapter>()
         val secondAdapter = mockk<SecondAdapter>()
-        mockMethod(skippedAdapters = arrayOf(firstAdapter::class, secondAdapter::class))
+        every { firstAdapter.trackEvent(any(), any()) } just Runs
+        every { secondAdapter.trackEvent(any(), any()) } just Runs
+        mockMethod(skippedAdapters = arrayOf(FirstAdapter::class, SecondAdapter::class))
 
-        val handler = createInvocationHandler(adaptersList = listOf(firstAdapter, secondAdapter))
-        assertFailsWith<TrckrException> {
-            handler.invoke(Unit, methodMock, arguments = arrayOf(defaultParameterArgument))
+        createInvocationHandler(adaptersList = listOf(firstAdapter, secondAdapter)).apply {
+            invoke(Unit, methodMock, arguments = arrayOf(defaultParameterArgument))
         }
-    }
 
-    @Test
-    fun `should fail to track event when it tries to skip adapter that is not registered in handler`() {
-        val firstAdapter = mockk<FirstAdapter>()
-        mockMethod(skippedAdapters = arrayOf(SecondAdapter::class))
-
-        val handler = createInvocationHandler(adaptersList = listOf(firstAdapter))
-        assertFailsWith<TrckrException> {
-            handler.invoke(Unit, methodMock, arguments = arrayOf(defaultParameterArgument))
-        }
+        verify(exactly = 0) { firstAdapter.trackEvent(any(), any()) }
+        verify(exactly = 0) { secondAdapter.trackEvent(any(), any()) }
     }
 
     private fun mockMethod(
