@@ -2,4 +2,4 @@
 rootProject.name = "trckr"
 
 include("trckr-core")
-include("demo")
+include("trckr-demo")
