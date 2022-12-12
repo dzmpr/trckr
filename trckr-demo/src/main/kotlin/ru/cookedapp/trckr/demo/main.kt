@@ -7,6 +7,7 @@ import ru.cookedapp.trckr.demo.adapters.FirebaseTrackingAdapter
 import ru.cookedapp.trckr.demo.converters.EnumConverter
 import ru.cookedapp.trckr.demo.converters.StopAppConverter
 import ru.cookedapp.trckr.demo.tracker.ApplicationTracker
+import ru.cookedapp.trckr.demo.tracker.createApplicationTracker
 import ru.cookedapp.trckr.demo.tracker.data.SearchSource
 
 fun getTracker(): ApplicationTracker = Trckr {
