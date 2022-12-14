@@ -1,9 +1,12 @@
 package ru.cookedapp.trckr.processor.extensions
 
+import com.google.devtools.ksp.getAllSuperTypes
 import com.google.devtools.ksp.symbol.ClassKind
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSAnnotation
 import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.KSDeclaration
+import com.google.devtools.ksp.symbol.KSDeclarationContainer
 import com.google.devtools.ksp.symbol.KSModifierListOwner
 import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSTypeArgument
@@ -19,6 +22,15 @@ internal fun KSClassDeclaration.isInterface(): Boolean = classKind == ClassKind.
 internal fun KSClassDeclaration.toTypeName(
     typeArguments: List<KSTypeArgument> = emptyList(),
 ): TypeName = asType(typeArguments).toTypeName()
+
+internal fun KSClassDeclaration.getAllDeclarations(): Sequence<KSDeclaration> {
+    val superTypeDeclarations = getAllSuperTypes().filter { ksType ->
+        !ksType.isAnyType()
+    }.flatMap { ksType ->
+        (ksType.declaration as KSDeclarationContainer).declarations
+    }
+    return declarations + superTypeDeclarations
+}
 
 internal inline fun <reified T : Any> KSAnnotated.getAnnotation(): KSAnnotation {
     val typeName = T::class.asTypeName()
@@ -45,3 +57,5 @@ internal inline fun <reified T : Any> KSAnnotation.getArgumentWithName(name: Str
 internal fun KSValueParameter.name(): String = name?.asString() ?: error("Parameter has no name.")
 
 internal fun KSModifierListOwner.isSuspendable(): Boolean = Modifier.SUSPEND in modifiers
+
+internal fun KSType.isAnyType(): Boolean = declaration.qualifiedName?.asString() == "kotlin.Any"
