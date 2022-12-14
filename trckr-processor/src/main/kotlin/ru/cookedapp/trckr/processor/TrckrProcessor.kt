@@ -11,6 +11,7 @@ import com.google.devtools.ksp.validate
 import ru.cookedapp.trckr.core.annotations.Event
 import ru.cookedapp.trckr.core.annotations.Param
 import ru.cookedapp.trckr.core.annotations.Tracker
+import ru.cookedapp.trckr.processor.extensions.getAllDeclarations
 import ru.cookedapp.trckr.processor.extensions.getSymbolsWithAnnotation
 import ru.cookedapp.trckr.processor.extensions.getTypeOf
 import ru.cookedapp.trckr.processor.extensions.hasAnnotation
@@ -65,7 +66,7 @@ class TrckrProcessor(
 
     private fun KSClassDeclaration.isInterfaceValid(
         resolver: Resolver,
-    ): Boolean = declarations.all { declaration ->
+    ): Boolean = getAllDeclarations().all { declaration ->
         when (declaration) {
             is KSFunctionDeclaration -> declaration.isFunctionValid(resolver)
             is KSClassDeclaration -> {

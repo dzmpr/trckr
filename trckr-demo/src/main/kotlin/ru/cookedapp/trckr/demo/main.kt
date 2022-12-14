@@ -7,7 +7,7 @@ import ru.cookedapp.trckr.demo.converters.EnumConverter
 import ru.cookedapp.trckr.demo.converters.StopAppConverter
 import ru.cookedapp.trckr.demo.tracker.ApplicationTracker
 import ru.cookedapp.trckr.demo.tracker.createApplicationTracker
-import ru.cookedapp.trckr.demo.tracker.data.SearchSource
+import ru.cookedapp.trckr.demo.tracker.data.ScreenType
 
 fun getTracker(): ApplicationTracker = createApplicationTracker {
     addAdapter(FirebaseTrackingAdapter())
@@ -20,13 +20,10 @@ fun getTracker(): ApplicationTracker = createApplicationTracker {
 fun main() {
     with(getTracker()) {
         appLaunched()
-        searchOpened(
-            query = null,
-            source = SearchSource.DETAILS_SCREEN,
-        )
-        searchOpened(
-            query = "query",
-            source = SearchSource.DETAILS_SCREEN,
+        screenOpened(screen = ScreenType.MAIN)
+        screenOpened(
+            utmData = "utmCampaign=release",
+            screen = ScreenType.DETAILS,
         )
         appStopped(isForceStopped = true)
     }

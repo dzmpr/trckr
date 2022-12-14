@@ -15,6 +15,7 @@ import ru.cookedapp.trckr.core.annotations.Event
 import ru.cookedapp.trckr.core.annotations.data.TrackStrategy
 import ru.cookedapp.trckr.core.event.TrckrEvent
 import ru.cookedapp.trckr.core.param.TrckrParam
+import ru.cookedapp.trckr.processor.extensions.getAllDeclarations
 import ru.cookedapp.trckr.processor.extensions.getAnnotation
 import ru.cookedapp.trckr.processor.extensions.getArgumentWithName
 import ru.cookedapp.trckr.processor.extensions.packageName
@@ -58,7 +59,7 @@ internal class TrackerGenerator(private val codeGenerator: CodeGenerator) : KSVi
                 }
                 addSuperinterface(trackerType)
 
-                classDeclaration.declarations.filterIsInstance<KSFunctionDeclaration>().forEach { method ->
+                classDeclaration.getAllDeclarations().filterIsInstance<KSFunctionDeclaration>().forEach { method ->
                     addAdapterImports(method)
                     val eventMethod = eventGenerator.generateEvent(method, TRCKR_NAME)
                     addFunction(eventMethod)
