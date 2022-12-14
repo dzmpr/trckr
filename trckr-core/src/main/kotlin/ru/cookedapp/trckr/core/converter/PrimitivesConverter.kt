@@ -1,5 +1,8 @@
 package ru.cookedapp.trckr.core.converter
 
+/**
+ *
+ */
 internal class PrimitivesConverter : TypeConverter {
 
     override fun convert(value: Any?): Any? = when (value) {
