@@ -1,7 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    kotlin("jvm") version "1.7.20"
+    alias(libs.plugins.kotlin.jvm)
 }
 
 group = "ru.cookedapp.trckr"
@@ -12,8 +13,8 @@ repositories {
 }
 
 dependencies {
-    testImplementation(kotlin("test"))
-    testImplementation("io.mockk:mockk:1.13.2")
+    testImplementation(libs.kotlin.test)
+    testImplementation(libs.mockk)
 }
 
 tasks.test {

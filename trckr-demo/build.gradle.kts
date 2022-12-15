@@ -1,8 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    kotlin("jvm") version "1.7.20"
-    id("com.google.devtools.ksp") version "1.7.20-1.0.7"
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.ksp)
 }
 
 repositories {
