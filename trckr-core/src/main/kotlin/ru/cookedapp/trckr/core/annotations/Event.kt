@@ -31,7 +31,7 @@ import ru.cookedapp.trckr.core.annotations.internal.TrckrInternal
  * @see Param
  */
 @Target(AnnotationTarget.FUNCTION)
-@Retention(AnnotationRetention.SOURCE)
+@Retention(AnnotationRetention.BINARY)
 annotation class Event(
     val name: String = "",
     val skipAdapters: Array<KClass<out TrackerAdapter>> = [],

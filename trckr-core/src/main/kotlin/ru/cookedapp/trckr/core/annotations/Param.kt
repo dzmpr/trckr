@@ -29,7 +29,7 @@ import ru.cookedapp.trckr.core.annotations.internal.TrckrInternal
  * @see TrackStrategy
  */
 @Target(AnnotationTarget.VALUE_PARAMETER)
-@Retention(AnnotationRetention.SOURCE)
+@Retention(AnnotationRetention.BINARY)
 annotation class Param(
     val name: String,
     val strategy: TrackStrategy = TrackStrategy.DEFAULT,
