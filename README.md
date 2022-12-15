@@ -36,7 +36,9 @@ flowchart TD;
 	E[ExampleTracker] --event--> A;
     A[Trckr] --event--> B[Firebase] & C[Amplitude] & D[Adjust];
  ```
+
 ## Gradle setup
+
 1. Add KSP plugin to your module's `build.gradle.kts`:
 ```kotlin
 plugins {
@@ -64,8 +66,11 @@ sourceSets.configureEach {
     kotlin.srcDir("$buildDir/generated/ksp/$name/kotlin/")
 }
 ```
+
 ## Features
+
 ### Multimodule project support
+
 Trckr supports multimodule projects.
 You can define module-scoped trackers inside each module like this:
 ```kotlin
@@ -88,8 +93,11 @@ And then, in application module you tie all trackers together:
 @Tracker
 interface ApplicationTracker : ModuleAlphaTracker, ModuleBetaTracker
 ```
-And now you just create `ApplicationTracker` with your DI framework (or pass it manually).
+**Trckr** generate `ApplicationTrackerImpl` for you, with all events from inherited tracker
+interfaces. So you can create tracker and inject it with your DI framework to modules (or pass it manually).
+
 ### Skip certain adapters
+
 It's not always needed to send event to all registered adapters. To use such methods in common tracker interface you can specify adapters that will be skipped in `@Event` annotation.
 ```kotlin
 @Tracker
@@ -105,7 +113,9 @@ flowchart TD;
     A[Trckr] --> B[Firebase];
     A --pay--> C[Amplitude] & D[Adjust];
  ```
+
 ### Skip null parameters
+
 Nullable parameters by default converter would be converted to string "null". But if you want to skip such parameter you can set track strategy to `TrackStrategy.SKIP_IF_NULL`, and it will be sent only if value is not null.
 ```kotlin
 @Tracker
@@ -121,7 +131,9 @@ interface ExampleTracker {
     )
 }
 ```
+
 ### Track null parameters
+
 Parameter converter or type converter should convert value to any not null type. If you need to track null explicitly you can set track strategy to `TrackStrategy.TRACK_NULL`.
 ```kotlin
 @Tracker
@@ -137,9 +149,13 @@ interface ExampleTracker {
     )
 }
 ```
-## Converters
+
+### Converters
+
 To clean up call place you can register converter that would convert parameter value to desired format.
+
 ### Type converters
+
 Type converter can convert parameter value based only on the value itself. It's suitable when you need to convert all values of certain type.
 ```kotlin
 class EnumConverter : TypeConverter {
@@ -158,7 +174,9 @@ val tracker = createExampleTracker {
     addConverter(EnumConverter())
 }
 ```
+
 ### Parameter converters
+
 Parameter converter can convert parameter value based on event name, parameter name and passed value. It's allows to convert specific values, even if they are typed with type that converts to another representation by type converter, because trckr check parameter converters before type converters. 
 ```kotlin
 @Tracker
@@ -191,6 +209,7 @@ tracker.event(first = -10, second = 20)
 ```
 
 ## License
+
 ```text
 Copyright 2022 Dzmitry Pryskoka
 

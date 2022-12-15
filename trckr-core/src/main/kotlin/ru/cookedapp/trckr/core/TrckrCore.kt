@@ -3,7 +3,8 @@ package ru.cookedapp.trckr.core
 import ru.cookedapp.trckr.core.event.TrckrEvent
 
 /**
- * Core logic class that used by generated trackers to track events.
+ * [TrckrCore] implementation is used by generated tracker class to track
+ * assembled events.
  */
 interface TrckrCore {
 

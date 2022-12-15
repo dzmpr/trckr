@@ -1,7 +1,7 @@
 package ru.cookedapp.trckr.core.adapter
 
 /**
- * Implementation of [this][TrackerAdapter] interface is encapsulates all tracking logic to specific service.
+ * Implementation of [this][TrackerAdapter] interface encapsulates all tracking logic to specific service.
  *
  * Adapter should be registered when you create a tracker by calling `createExampleTracker
  *  { addAdapter(ExampleAdapterImpl()) }`

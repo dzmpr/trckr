@@ -10,6 +10,8 @@ import ru.cookedapp.trckr.core.annotations.data.TrackStrategy
  * @param name Name of parameter.
  * @param strategy Conversion strategy that should be used when converting value of this parameter.
  * @param value Argument that passed to event method.
+ *
+ * @see TrackStrategy
  */
 data class TrckrParam(
     val name: String,

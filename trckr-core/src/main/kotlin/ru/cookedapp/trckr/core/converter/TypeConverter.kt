@@ -10,6 +10,9 @@ package ru.cookedapp.trckr.core.converter
  * Conversion process goes on until one of converters return not-null value or all converters at
  * both stages are out.
  *
+ * Converters are called by **trckr** in order in which they are were added. So you should
+ * make sure more general converters were added after more specific ones.
+ *
  * Example converter:
  * ```kotlin
  * class EnumConverter : TypeConverter {
