@@ -1,14 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.7.20"
-}
-
-group = "ru.cookedapp.trckr"
-version = "0.9.0"
-
-repositories {
-    mavenCentral()
+    id("trckr-artifact")
 }
 
 dependencies {
@@ -21,13 +14,8 @@ dependencies {
     testImplementation(libs.mockk)
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
-
 tasks.withType<KotlinCompile> {
     kotlinOptions {
-        jvmTarget = "1.8"
         freeCompilerArgs += "-opt-in=ru.cookedapp.trckr.core.annotations.internal.TrckrInternal"
     }
 }
