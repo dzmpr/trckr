@@ -5,6 +5,7 @@ on:
 
 jobs:
   publish:
+    name: Publish artifacts
     runs-on: ubuntu-latest
 
     steps:
@@ -26,23 +27,26 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASS }}
 
   release:
-    name: Create release
+    name: Create github release
     needs: publish
     runs-on: ubuntu-latest
 
     steps:
-      - name: Read VERSION file
-        id: readversion
-        run: echo "::set-output name=version::$(cat trckr.version)"
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Create Release
-        id: create_release
+      - name: Read version
+        run: |
+          version=$(cat trckr.version | tr -d '\n')
+          echo "version=$version" >> $GITHUB_ENV
+
+      - name: Create release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           commitish: ${{ github.ref }}
-          tag_name: v${{ steps.readversion.outputs.version }}
-          release_name: v${{ steps.readversion.outputs.version }}
+          tag_name: v${{ env.version }}
+          release_name: v${{ env.version }}
           body: "Will be filled later."
           draft: true
