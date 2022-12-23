@@ -53,11 +53,11 @@ class TrckrProcessor(
 
     private fun KSAnnotated.isSymbolValid(resolver: Resolver): Boolean = when {
         this !is KSClassDeclaration -> {
-            logError("@Tracker annotation can be applied only to interface.")
+            logError(ErrorMessage.INCORRECT_TRACKER_ANNOTATION_TARGET)
             false
         }
         !isInterface() -> {
-            logError("@Tracker annotation can be applied only to interface.")
+            logError(ErrorMessage.INCORRECT_TRACKER_ANNOTATION_TARGET)
             false
         }
         !isInterfaceValid(resolver) -> false
@@ -71,14 +71,14 @@ class TrckrProcessor(
             is KSFunctionDeclaration -> declaration.isFunctionValid(resolver)
             is KSClassDeclaration -> {
                 if (!declaration.isCompanionObject) {
-                    logError("Tracker can't contain classes (only companion objects allowed).'")
+                    logError(ErrorMessage.INCORRECT_TRACKER_CLASS_DECLARATION)
                     false
                 } else {
                     true
                 }
             }
             else -> {
-                logError("Tracker \"${simpleName.asString()}\" can contain only event methods or companion object.")
+                logError(ErrorMessage.incorrectTrackerInnerDeclaration(simpleName.asString()))
                 false
             }
         }
@@ -87,24 +87,28 @@ class TrckrProcessor(
     private fun KSFunctionDeclaration.isFunctionValid(resolver: Resolver): Boolean {
         // Has @Event annotation
         if (!hasAnnotation(resolver.getTypeOf<Event>())) {
-            logError("Event method \"${simpleName.asString()}\" should be annotated with @Event annotation.")
+            logError(ErrorMessage.eventMethodMissingAnnotation(simpleName.asString()))
             return false
         }
         // Is not suspendable
         if (isSuspendable()) {
-            logError("Event method \"${simpleName.asString()}\" should not be suspendable.")
+            logError(ErrorMessage.suspendableEventMethod(simpleName.asString()))
             return false
         }
         // Return type is Unit
         if (returnType?.resolve() != resolver.builtIns.unitType) {
-            logError("Event method \"${simpleName.asString()}\" should return Unit.")
+            logError(ErrorMessage.incorrectEventMethodReturnType(simpleName.asString()))
             return false
         }
         // All event parameters has @Param annotation
         val paramType = resolver.getTypeOf<Param>()
         parameters.forEach { parameter ->
             if (parameter.hasAnnotation(paramType)) return@forEach
-            logError("Event method \"${simpleName.asString()}\" has parameter \"${parameter.name()}\" without @Param annotation.")
+            val errorMessage = ErrorMessage.incorrectParameterDeclaration(
+                methodName = simpleName.asString(),
+                parameterName = parameter.name(),
+            )
+            logError(errorMessage)
             return false
         }
         return true
