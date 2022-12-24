@@ -4,6 +4,7 @@ ksp = "1.7.20-1.0.7"
 kotlinpoet = "1.12.0"
 publishing = "0.22.0"
 mockk = "1.13.2"
+junit = "5.9.1"
 compileTesting = "1.4.9"
 
 [libraries]
@@ -15,6 +16,7 @@ kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.
 publishing-plugin = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "publishing" }
 # Test dependencies
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+junit = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 compile-testing = { module = "com.github.tschuchortdev:kotlin-compile-testing", version.ref = "compileTesting" }
 compile-testing-ksp = { module = "com.github.tschuchortdev:kotlin-compile-testing-ksp", version.ref = "compileTesting" }

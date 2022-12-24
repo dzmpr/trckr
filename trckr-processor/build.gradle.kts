@@ -10,6 +10,7 @@ dependencies {
     implementation(libs.bundles.kotlinpoet)
 
     testImplementation(libs.kotlin.test)
+    testImplementation(libs.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.bundles.compile.testing)
 }

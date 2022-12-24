@@ -18,4 +18,4 @@ internal fun KotlinCompilation.Result.hasNoKspErrors() {
 }
 
 internal fun KotlinCompilation.Result.kspGeneratedSources() =
-    outputDirectory.parentFile.resolve("ksp/sources").walk().filter { it.isFile }
+    outputDirectory.parentFile.resolve("ksp/sources").walk().filter { it.isFile }.toList()
