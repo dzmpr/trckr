@@ -2,18 +2,28 @@
 kotlin = "1.7.20"
 ksp = "1.7.20-1.0.7"
 kotlinpoet = "1.12.0"
-mockk = "1.13.2"
 publishing = "0.22.0"
+mockk = "1.13.2"
+junit = "5.9.1"
+compileTesting = "1.4.9"
 
 [libraries]
 ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
 kotlinpoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinpoet" }
 kotlinpoet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlinpoet" }
-mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 # Compiled plugins
 kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 publishing-plugin = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "publishing" }
+# Test dependencies
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+junit = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+compile-testing = { module = "com.github.tschuchortdev:kotlin-compile-testing", version.ref = "compileTesting" }
+compile-testing-ksp = { module = "com.github.tschuchortdev:kotlin-compile-testing-ksp", version.ref = "compileTesting" }
+
+[bundles]
+compile-testing = ["compile-testing", "compile-testing-ksp"]
+kotlinpoet = ["kotlinpoet", "kotlinpoet-ksp"]
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

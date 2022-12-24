@@ -7,11 +7,12 @@ plugins {
 dependencies {
     implementation(project(":trckr-core"))
     implementation(libs.ksp.api)
-    implementation(libs.kotlinpoet)
-    implementation(libs.kotlinpoet.ksp)
+    implementation(libs.bundles.kotlinpoet)
 
     testImplementation(libs.kotlin.test)
+    testImplementation(libs.junit)
     testImplementation(libs.mockk)
+    testImplementation(libs.bundles.compile.testing)
 }
 
 tasks.withType<KotlinCompile> {
