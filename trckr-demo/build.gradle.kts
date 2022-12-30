@@ -1,6 +1,6 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id("trckr-module")
+    alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.ksp)
 }
 

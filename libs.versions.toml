@@ -12,7 +12,6 @@ ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.re
 kotlinpoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinpoet" }
 kotlinpoet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlinpoet" }
 # Compiled plugins
-kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 publishing-plugin = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "publishing" }
 # Test dependencies
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
@@ -27,4 +26,5 @@ kotlinpoet = ["kotlinpoet", "kotlinpoet-ksp"]
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

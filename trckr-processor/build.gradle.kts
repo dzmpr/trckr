@@ -1,22 +1,37 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
+    alias(libs.plugins.kotlin.multiplatform)
     id("trckr-artifact")
 }
 
-dependencies {
-    implementation(project(":trckr-core"))
-    implementation(libs.ksp.api)
-    implementation(libs.bundles.kotlinpoet)
+kotlin {
+    jvm {
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "1.8"
+                freeCompilerArgs += "-opt-in=ru.cookedapp.trckr.core.annotations.internal.TrckrInternal"
+            }
+        }
+        testRuns["test"].executionTask.configure {
+            useJUnitPlatform()
+        }
+    }
 
-    testImplementation(libs.kotlin.test)
-    testImplementation(libs.junit)
-    testImplementation(libs.mockk)
-    testImplementation(libs.bundles.compile.testing)
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs += "-opt-in=ru.cookedapp.trckr.core.annotations.internal.TrckrInternal"
+    sourceSets {
+        getByName("jvmMain") {
+            dependencies {
+                implementation(project(":trckr-core"))
+                implementation(libs.ksp.api)
+                implementation(libs.bundles.kotlinpoet)
+            }
+        }
+        getByName("jvmTest") {
+            dependencies {
+                implementation(libs.kotlin.test)
+                implementation(libs.junit)
+                implementation(libs.mockk)
+                implementation(libs.bundles.compile.testing)
+            }
+        }
     }
 }
