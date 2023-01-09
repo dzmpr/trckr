@@ -2,22 +2,24 @@ name: Tests
 
 on:
   pull_request:
-
   workflow_dispatch:
 
 jobs:
-  build:
+  tests:
+    name: Run unit tests
     runs-on: macos-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Set up JDK 11
+      - name: Set up JDK 8
         uses: actions/setup-java@v3
         with:
-          distribution: 'adopt'
-          java-version: '11'
+          distribution: 'temurin'
+          java-version: '8'
 
       - name: Run tests
-        run: ./gradlew allTests
+        # Temporary run tests only for JVM target, because ios/watchos/tvos tests fail.
+        # TODO: https://youtrack.jetbrains.com/issue/KT-54814
+        run: ./gradlew jvmTest
