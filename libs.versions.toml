@@ -1,11 +1,11 @@
 [versions]
-kotlin = "1.7.20"
-ksp = "1.7.20-1.0.7"
-kotlinpoet = "1.12.0"
-publishing = "0.22.0"
-mockk = "1.13.2"
-junit = "5.9.1"
-compileTesting = "1.4.9"
+kotlin = "1.8.21"
+ksp = "1.8.21-1.0.11"
+kotlinpoet = "1.13.2"
+publishing = "0.25.2"
+mockk = "1.13.5"
+junit = "5.9.3"
+compileTesting = "1.5.0"
 binaryvalidator = "0.13.1"
 
 [libraries]
