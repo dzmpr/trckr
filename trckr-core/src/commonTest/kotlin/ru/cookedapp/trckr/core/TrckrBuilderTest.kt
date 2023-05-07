@@ -1,8 +1,9 @@
 package ru.cookedapp.trckr.core
 
+import kotlin.test.Test
 import kotlin.test.assertFailsWith
-import org.junit.jupiter.api.Test
 import ru.cookedapp.trckr.core.exceptions.TrckrBuilderException
+import ru.cookedapp.trckr.core.testHelpers.FirstAdapter
 
 internal class TrckrBuilderTest {
 

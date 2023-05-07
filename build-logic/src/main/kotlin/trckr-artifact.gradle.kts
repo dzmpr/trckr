@@ -2,7 +2,6 @@ import com.vanniktech.maven.publish.SonatypeHost
 import ru.cookedapp.trckr.gradle.isVersionStringValid
 
 plugins {
-    id("trckr-module")
     id("com.vanniktech.maven.publish")
 }
 
