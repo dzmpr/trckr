@@ -43,7 +43,7 @@ flowchart TD;
 1. Add KSP plugin to your module's `build.gradle.kts`:
 ```kotlin
 plugins {
-    id("com.google.devtools.ksp") version "1.7.20-1.0.7"
+    id("com.google.devtools.ksp") version "1.8.21-1.0.11"
 }
 ```
 2. Add `Maven Central` to the repositories blocks in your project's `build.gradle.kts`:
@@ -55,8 +55,8 @@ repositories {
 3. Add `trckr` dependencies:
 ```kotlin
 dependencies {
-    implementation("ru.cookedapp.trckr:trckr-core:1.0.0")
-    ksp("ru.cookedapp.trckr:trckr-processor:1.0.0")
+    implementation("ru.cookedapp.trckr:trckr-core:1.1.1")
+    ksp("ru.cookedapp.trckr:trckr-processor:1.1.1")
 }
 ```
 4. Add KSP source path:

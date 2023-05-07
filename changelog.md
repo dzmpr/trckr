@@ -1,9 +1,8 @@
 ### Changelog
-* Add kotlin multiplatform support.
-* Add public API validation.
+* Update project dependencies.
 
 ### Dependencies
-| Dependency |    Version     |
-|------------|:--------------:|
-| Kotlin     |    `1.7.20`    |
-| KSP        | `1.7.20-1.0.7` |
+| Dependency |     Version     |
+|------------|:---------------:|
+| Kotlin     |    `1.8.21`     |
+| KSP        | `1.8.21-1.0.11` |
