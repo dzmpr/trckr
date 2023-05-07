@@ -1,5 +1,6 @@
 ### Changelog
 * Add kotlin multiplatform support.
+* Add public API validation.
 
 ### Dependencies
 | Dependency |    Version     |
