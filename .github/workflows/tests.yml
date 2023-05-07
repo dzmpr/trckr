@@ -10,19 +10,19 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v3
 
-      - name: Set up JDK 8
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '8'
+    - name: Set up JDK 8
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '8'
 
-      - name: Check public API
-        run: ./gradlew apiCheck
+    - name: Check public API
+      run: ./gradlew apiCheck
 
-      - name: Run tests
-        # Temporary run tests only for JVM target, because ios/watchos/tvos tests fail.
-        # TODO: https://youtrack.jetbrains.com/issue/KT-54814
-        run: ./gradlew jvmTest
+    - name: Run tests
+      # Temporary run tests only for JVM target, because ios/watchos/tvos tests fail.
+      # TODO: https://youtrack.jetbrains.com/issue/KT-54814
+      run: ./gradlew jvmTest
