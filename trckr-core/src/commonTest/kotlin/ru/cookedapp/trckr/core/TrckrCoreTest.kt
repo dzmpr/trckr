@@ -1,13 +1,9 @@
 package ru.cookedapp.trckr.core
 
-import io.mockk.Runs
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.verify
 import kotlin.reflect.KClass
+import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
-import org.junit.jupiter.api.Test
 import ru.cookedapp.trckr.core.adapter.TrackerAdapter
 import ru.cookedapp.trckr.core.annotations.data.TrackStrategy
 import ru.cookedapp.trckr.core.converter.ParameterConverter
@@ -15,6 +11,11 @@ import ru.cookedapp.trckr.core.converter.TypeConverter
 import ru.cookedapp.trckr.core.event.TrckrEvent
 import ru.cookedapp.trckr.core.exceptions.TrckrConversionException
 import ru.cookedapp.trckr.core.param.TrckrParam
+import ru.cookedapp.trckr.core.testHelpers.FakeParameterConverter
+import ru.cookedapp.trckr.core.testHelpers.FakeTypeConverter
+import ru.cookedapp.trckr.core.testHelpers.FirstAdapter
+import ru.cookedapp.trckr.core.testHelpers.SecondAdapter
+import ru.cookedapp.trckr.core.testHelpers.createFakeAdapter
 
 class TrckrCoreTest {
 
@@ -31,7 +32,7 @@ class TrckrCoreTest {
             trackToSecondAdapter = true,
         )
     }
-    
+
     @Test
     fun `should track event to all adapters except skipped adapters`() {
         testTrackToAdapters(
@@ -140,7 +141,7 @@ class TrckrCoreTest {
         strategy: TrackStrategy,
         expectedParameter: Pair<String, Any?>?,
     ) {
-        val adapter = createAdapter<TrackerAdapter>()
+        val adapter = createFakeAdapter()
         val event = createEvent(
             parameters = listOf(TrckrParam(defaultParameterName, strategy, value)),
         )
@@ -153,7 +154,9 @@ class TrckrCoreTest {
         tracker.track(event)
 
         val expectedParameters = expectedParameter?.let { mapOf(expectedParameter) } ?: emptyMap()
-        verify { adapter.trackEvent(event.name, expectedParameters) }
+        val expectedEvents = listOf(event.name to expectedParameters)
+        val actualEvents = adapter.getEvents()
+        assertEquals(expectedEvents, actualEvents)
     }
 
     private fun testValueConversion(
@@ -161,7 +164,7 @@ class TrckrCoreTest {
         typeConverter: TypeConverter?,
         convertedValue: Any?,
     ) {
-        val adapter = createAdapter<TrackerAdapter>()
+        val adapter = createFakeAdapter()
         val parameter = TrckrParam(
             name = defaultParameterName,
             strategy = TrackStrategy.DEFAULT,
@@ -177,7 +180,9 @@ class TrckrCoreTest {
         tracker.track(event)
 
         val expectedParameters = mapOf(defaultParameterName to convertedValue)
-        verify { adapter.trackEvent(event.name, expectedParameters) }
+        val expectedEvents = listOf(event.name to expectedParameters)
+        val actualEvents = adapter.getEvents()
+        assertEquals(expectedEvents, actualEvents)
     }
 
     private fun testTrackToAdapters(
@@ -186,25 +191,28 @@ class TrckrCoreTest {
         trackToFirstAdapter: Boolean,
         trackToSecondAdapter: Boolean,
     ) {
-        val firstAdapter = createAdapter<FirstAdapter>()
-        val secondAdapter = createAdapter<SecondAdapter>()
+        val firstAdapter = createFakeAdapter()
+        val firstAdapterImpl = object : TrackerAdapter by firstAdapter, FirstAdapter {}
+        val secondAdapter = createFakeAdapter()
+        val secondAdapterImpl = object : TrackerAdapter by secondAdapter, SecondAdapter {}
         val event = createEvent(skipAdapters = buildList {
             if (skipFirstAdapter) add(FirstAdapter::class)
             if (skipSecondAdapter) add(SecondAdapter::class)
         })
-        val tracker = createTrckrCore(adapters = listOf(firstAdapter, secondAdapter))
+        val tracker = createTrckrCore(adapters = listOf(firstAdapterImpl, secondAdapterImpl))
 
         tracker.track(event)
 
-        val firstAdapterCallCount = if (trackToFirstAdapter) 1 else 0
-        verify(exactly = firstAdapterCallCount) {
-            firstAdapter.trackEvent(event.name, parameters = emptyMap())
-        }
-        val secondAdapterCallCount = if (trackToSecondAdapter) 1 else 0
-        verify(exactly = secondAdapterCallCount) {
-            secondAdapter.trackEvent(event.name, parameters = emptyMap())
-        }
+        val expectedEvents = listOf(event.name to emptyMap<String, Any?>())
+        val expectedFirstAdaptersEvents = if (trackToFirstAdapter) expectedEvents else emptyList()
+        assertEquals(expectedFirstAdaptersEvents, firstAdapter.getEvents())
+        val expectedSecondAdapterEvents = if (trackToSecondAdapter) expectedEvents else emptyList()
+        assertEquals(expectedSecondAdapterEvents, secondAdapter.getEvents())
     }
+
+    private fun createTypeConverter() = FakeTypeConverter(typeConverterResult)
+
+    private fun createParameterConverter() = FakeParameterConverter(parameterConverterResult)
 
     private fun createEvent(
         skipAdapters: List<KClass<out TrackerAdapter>> = emptyList(),
@@ -214,18 +222,6 @@ class TrckrCoreTest {
         skipAdapters = skipAdapters,
         parameters = parameters,
     )
-
-    private inline fun <reified A : TrackerAdapter> createAdapter() = mockk<A>().also { adapter ->
-        every { adapter.trackEvent(any(), any()) } just Runs
-    }
-
-    private fun createTypeConverter() = mockk<TypeConverter>().also { converter ->
-        every { converter.convert(any()) } returns typeConverterResult
-    }
-
-    private fun createParameterConverter() = mockk<ParameterConverter>().also { converter ->
-        every { converter.convert(any(), any(), any()) } returns parameterConverterResult
-    }
 
     private fun createTrckrCore(
         adapters: List<TrackerAdapter> = emptyList(),

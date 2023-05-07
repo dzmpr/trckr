@@ -2,6 +2,7 @@
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/ru.cookedapp.trckr/trckr-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/ru.cookedapp.trckr/trckr-core)
 [![CI](https://github.com/dzmpr/trckr/actions/workflows/tests.yml/badge.svg)](https://github.com/dzmpr/trckr/actions/workflows/tests.yml)
+[![KMM](https://img.shields.io/badge/KMM-supported-orange)](https://kotlinlang.org/docs/multiplatform-mobile-getting-started.html)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 Trckr is **Kotlin Symbol Processor** to help you send analytics to multiple destinations (called adapters).
@@ -62,8 +63,11 @@ dependencies {
 
 To access generated code from KSP, you need to set up the source path into your module's `build.gradle.kts` file:
 ```kotlin
-sourceSets.configureEach {
-    kotlin.srcDir("$buildDir/generated/ksp/$name/kotlin/")
+kotlin {
+    // ...
+    sourceSets.configureEach {
+        kotlin.srcDir("$buildDir/generated/ksp/$name/kotlin/")
+    }
 }
 ```
 

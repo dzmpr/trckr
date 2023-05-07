@@ -1,29 +1,28 @@
 name: Tests
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow pull request events but only for the "main" branch
   pull_request:
-    branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+  tests:
+    name: Run unit tests
+    runs-on: macos-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-      - name: Set up JDK 11
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'adopt'
-          java-version: '11'
-      - name: Test with Gradle
-        run: ./gradlew test
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Set up JDK 8
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '8'
+
+    - name: Check public API
+      run: ./gradlew apiCheck
+
+    - name: Run tests
+      # Temporary run tests only for JVM target, because ios/watchos/tvos tests fail.
+      # TODO: https://youtrack.jetbrains.com/issue/KT-54814
+      run: ./gradlew jvmTest
