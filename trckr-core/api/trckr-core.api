@@ -1,0 +1,109 @@
+public final class ru/cookedapp/trckr/core/TrckrBuilder {
+	public final fun addAdapter (Lru/cookedapp/trckr/core/adapter/TrackerAdapter;)V
+	public final fun addParameterConverter (Lru/cookedapp/trckr/core/converter/ParameterConverter;)V
+	public final fun addTypeConverter (Lru/cookedapp/trckr/core/converter/TypeConverter;)V
+}
+
+public abstract interface class ru/cookedapp/trckr/core/TrckrCore {
+	public abstract fun track (Lru/cookedapp/trckr/core/event/TrckrEvent;)V
+}
+
+public final class ru/cookedapp/trckr/core/TrckrCoreImplKt {
+	public static final fun createTrckr (Lkotlin/jvm/functions/Function1;)Lru/cookedapp/trckr/core/TrckrCore;
+}
+
+public abstract interface class ru/cookedapp/trckr/core/adapter/TrackerAdapter {
+	public abstract fun trackEvent (Ljava/lang/String;Ljava/util/Map;)V
+}
+
+public abstract interface annotation class ru/cookedapp/trckr/core/annotations/Event : java/lang/annotation/Annotation {
+	public static final field Companion Lru/cookedapp/trckr/core/annotations/Event$Companion;
+	public static final field NAME_PROPERTY_NAME Ljava/lang/String;
+	public static final field SKIP_ADAPTERS_PROPERTY_NAME Ljava/lang/String;
+	public abstract fun name ()Ljava/lang/String;
+	public abstract fun skipAdapters ()[Ljava/lang/Class;
+}
+
+public final class ru/cookedapp/trckr/core/annotations/Event$Companion {
+}
+
+public abstract interface annotation class ru/cookedapp/trckr/core/annotations/Param : java/lang/annotation/Annotation {
+	public static final field Companion Lru/cookedapp/trckr/core/annotations/Param$Companion;
+	public static final field NAME_PROPERTY_NAME Ljava/lang/String;
+	public static final field STRATEGY_PROPERTY_NAME Ljava/lang/String;
+	public abstract fun name ()Ljava/lang/String;
+	public abstract fun strategy ()Lru/cookedapp/trckr/core/annotations/data/TrackStrategy;
+}
+
+public final class ru/cookedapp/trckr/core/annotations/Param$Companion {
+}
+
+public abstract interface annotation class ru/cookedapp/trckr/core/annotations/Tracker : java/lang/annotation/Annotation {
+}
+
+public final class ru/cookedapp/trckr/core/annotations/data/TrackStrategy : java/lang/Enum {
+	public static final field DEFAULT Lru/cookedapp/trckr/core/annotations/data/TrackStrategy;
+	public static final field SKIP_IF_NULL Lru/cookedapp/trckr/core/annotations/data/TrackStrategy;
+	public static final field TRACK_NULL Lru/cookedapp/trckr/core/annotations/data/TrackStrategy;
+	public static fun valueOf (Ljava/lang/String;)Lru/cookedapp/trckr/core/annotations/data/TrackStrategy;
+	public static fun values ()[Lru/cookedapp/trckr/core/annotations/data/TrackStrategy;
+}
+
+public abstract interface class ru/cookedapp/trckr/core/converter/ParameterConverter {
+	public abstract fun convert (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
+}
+
+public abstract interface class ru/cookedapp/trckr/core/converter/TypeConverter {
+	public abstract fun convert (Ljava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class ru/cookedapp/trckr/core/event/TrckrEvent {
+	public fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/List;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;Ljava/util/List;)Lru/cookedapp/trckr/core/event/TrckrEvent;
+	public static synthetic fun copy$default (Lru/cookedapp/trckr/core/event/TrckrEvent;Ljava/lang/String;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)Lru/cookedapp/trckr/core/event/TrckrEvent;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getName ()Ljava/lang/String;
+	public final fun getParameters ()Ljava/util/List;
+	public final fun getSkipAdapters ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class ru/cookedapp/trckr/core/exceptions/TrckrBuilderException : ru/cookedapp/trckr/core/exceptions/TrckrException {
+	public fun <init> (Ljava/lang/String;)V
+	public fun getMessage ()Ljava/lang/String;
+}
+
+public final class ru/cookedapp/trckr/core/exceptions/TrckrConversionException : ru/cookedapp/trckr/core/exceptions/TrckrException {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract class ru/cookedapp/trckr/core/exceptions/TrckrException : java/lang/Throwable {
+	public fun <init> ()V
+}
+
+public final class ru/cookedapp/trckr/core/extensions/TrckrBuilderExtensionsKt {
+	public static final fun addAdapters (Lru/cookedapp/trckr/core/TrckrBuilder;[Lru/cookedapp/trckr/core/adapter/TrackerAdapter;)V
+	public static final fun addConverters (Lru/cookedapp/trckr/core/TrckrBuilder;[Lru/cookedapp/trckr/core/converter/ParameterConverter;)V
+	public static final fun addConverters (Lru/cookedapp/trckr/core/TrckrBuilder;[Lru/cookedapp/trckr/core/converter/TypeConverter;)V
+}
+
+public final class ru/cookedapp/trckr/core/param/TrckrParam {
+	public fun <init> (Ljava/lang/String;Lru/cookedapp/trckr/core/annotations/data/TrackStrategy;Ljava/lang/Object;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Lru/cookedapp/trckr/core/annotations/data/TrackStrategy;
+	public final fun component3 ()Ljava/lang/Object;
+	public final fun copy (Ljava/lang/String;Lru/cookedapp/trckr/core/annotations/data/TrackStrategy;Ljava/lang/Object;)Lru/cookedapp/trckr/core/param/TrckrParam;
+	public static synthetic fun copy$default (Lru/cookedapp/trckr/core/param/TrckrParam;Ljava/lang/String;Lru/cookedapp/trckr/core/annotations/data/TrackStrategy;Ljava/lang/Object;ILjava/lang/Object;)Lru/cookedapp/trckr/core/param/TrckrParam;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getName ()Ljava/lang/String;
+	public final fun getStrategy ()Lru/cookedapp/trckr/core/annotations/data/TrackStrategy;
+	public final fun getValue ()Ljava/lang/Object;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+

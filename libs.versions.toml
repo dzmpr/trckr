@@ -6,6 +6,7 @@ publishing = "0.22.0"
 mockk = "1.13.2"
 junit = "5.9.1"
 compileTesting = "1.4.9"
+binaryvalidator = "0.13.1"
 
 [libraries]
 ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
@@ -28,3 +29,4 @@ kotlinpoet = ["kotlinpoet", "kotlinpoet-ksp"]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+binaryvalidator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryvalidator" }
