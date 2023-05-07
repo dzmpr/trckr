@@ -9,22 +9,22 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v3
 
-      - name: Set up JDK 8
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '8'
+    - name: Set up JDK 8
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '8'
 
-      - name: Publish artifacts to maven central
-        run: ./gradlew publishAllPublicationsToMavenCentralRepository
-        env:
-          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_USER }}
-          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_PASS }}
-          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}
-          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASS }}
+    - name: Publish artifacts to maven central
+      run: ./gradlew publishAllPublicationsToMavenCentralRepository
+      env:
+        ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_USER }}
+        ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_PASS }}
+        ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}
+        ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASS }}
 
   release:
     name: Create github release
@@ -32,18 +32,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v3
 
-      - name: Read version
-        run: |
-          version=$(cat trckr.version | tr -d '\n')
-          echo "version=$version" >> $GITHUB_ENV
+    - name: Read version
+      run: |
+        version=$(cat trckr.version | tr -d '\n')
+        echo "version=$version" >> $GITHUB_ENV
 
-      - name: Create release
-        uses: softprops/action-gh-release@v1
-        with:
-          body_path: ${{ github.workspace }}/changelog.md
-          name: v${{ env.version }}
-          tag_name: v${{ env.version }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create release
+      uses: softprops/action-gh-release@v1
+      with:
+        body_path: ${{ github.workspace }}/changelog.md
+        name: v${{ env.version }}
+        tag_name: v${{ env.version }}
+        token: ${{ secrets.GITHUB_TOKEN }}
