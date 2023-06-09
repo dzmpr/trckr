@@ -20,7 +20,7 @@ jobs:
         java-version: '11'
 
     - name: Check public API
-      run: ./gradlew apiCheck
+      run: ./gradlew clean apiCheck
 
     - name: Run tests
       run: ./gradlew allTests
