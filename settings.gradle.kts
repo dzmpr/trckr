@@ -8,7 +8,7 @@ include("trckr-demo")
 dependencyResolutionManagement {
     // Configure repositories
     // TODO: find mystery 'ivy' repository
-    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
     repositories {
         mavenCentral()
     }
