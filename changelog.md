@@ -1,8 +1,8 @@
 ### Changelog
-* Update project dependencies.
+* Update Kotlin and KSP.
 
 ### Dependencies
 | Dependency |     Version     |
 |------------|:---------------:|
-| Kotlin     |    `1.8.21`     |
-| KSP        | `1.8.21-1.0.11` |
+| Kotlin     |    `1.8.22`     |
+| KSP        | `1.8.22-1.0.11` |
