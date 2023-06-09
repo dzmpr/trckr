@@ -1,6 +1,7 @@
 dependencyResolutionManagement {
     // Configure repositories
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    // TODO: find mystery 'ivy' repository
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
         gradlePluginPortal()
     }
