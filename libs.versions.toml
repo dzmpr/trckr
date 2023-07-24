@@ -1,12 +1,12 @@
 [versions]
-kotlin = "1.8.22"
-ksp = "1.8.22-1.0.11"
-kotlinpoet = "1.13.2"
-publishing = "0.25.2"
+kotlin = "1.9.0"
+ksp = "1.9.0-1.0.12"
+kotlinpoet = "1.14.2"
+publishing = "0.25.3"
 mockk = "1.13.5"
-junit = "5.9.3"
+junit = "5.10.0"
 compileTesting = "1.5.0"
-binaryvalidator = "0.13.1"
+binaryvalidator = "0.13.2"
 
 [libraries]
 ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
