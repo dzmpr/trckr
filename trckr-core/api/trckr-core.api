@@ -45,6 +45,7 @@ public final class ru/cookedapp/trckr/core/annotations/data/TrackStrategy : java
 	public static final field DEFAULT Lru/cookedapp/trckr/core/annotations/data/TrackStrategy;
 	public static final field SKIP_IF_NULL Lru/cookedapp/trckr/core/annotations/data/TrackStrategy;
 	public static final field TRACK_NULL Lru/cookedapp/trckr/core/annotations/data/TrackStrategy;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lru/cookedapp/trckr/core/annotations/data/TrackStrategy;
 	public static fun values ()[Lru/cookedapp/trckr/core/annotations/data/TrackStrategy;
 }

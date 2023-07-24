@@ -7,7 +7,7 @@ include("trckr-demo")
 
 dependencyResolutionManagement {
     // Configure repositories
-    // TODO: find mystery 'ivy' repository
+    // Use FAIL_ON_PROJECT_REPOS when https://youtrack.jetbrains.com/issue/KT-51379 will be fixed
     repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
     repositories {
         mavenCentral()
