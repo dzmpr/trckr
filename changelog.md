@@ -1,5 +1,5 @@
 ### Changelog
-* Update dependencies.
+* Improve tracker code generation.
 
 ### Dependencies
 | Dependency |    Version     |
