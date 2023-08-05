@@ -1,10 +1,10 @@
 package ru.cookedapp.trckr.processor.helpers
 
-import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSValueParameter
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.LambdaTypeName
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.PropertySpec
@@ -26,21 +26,12 @@ internal inline fun createFile(
 internal inline fun FileSpec.Builder.addClass(
     className: String,
     crossinline builder: TypeSpec.Builder.() -> Unit,
-): FileSpec.Builder = addType(createClass(className, builder))
+): TypeSpec = createClass(className, builder).also(this::addType)
 
 internal inline fun FileSpec.Builder.addFunction(
     name: String,
     crossinline builder: FunSpec.Builder.() -> Unit,
 ): FileSpec.Builder = addFunction(createFunction(name, builder))
-
-internal fun FileSpec.Builder.addImport(
-    type: KSType,
-) = addImport(type.declaration.packageName.asString(), type.declaration.simpleName.asString())
-
-internal inline fun <reified Type : Any> FileSpec.Builder.addImport() {
-    val typeName = Type::class.asTypeName()
-    addImport(typeName.packageName, typeName.simpleName)
-}
 
 // FunSpec helpers
 
@@ -77,7 +68,7 @@ internal fun TypeSpec.Builder.addProperty(
     name: String,
     type: KClass<*>,
     builder: PropertySpec.Builder.() -> Unit,
-): TypeSpec.Builder = addProperty(createProperty(name, type, builder))
+): PropertySpec = createProperty(name, type, builder).also(::addProperty)
 
 // PropertySpec helpers
 
@@ -93,3 +84,11 @@ internal inline fun <reified Type : Any> createLambda(
     parameters: List<ParameterSpec> = emptyList(),
     returnType: TypeName,
 ) = LambdaTypeName.get(Type::class.asTypeName(), parameters, returnType)
+
+// Parameter helpers
+
+internal fun createParameter(
+    name: String,
+    type: TypeName,
+    vararg modifiers: KModifier,
+) = ParameterSpec.builder(name, type, *modifiers).build()
