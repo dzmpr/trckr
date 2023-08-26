@@ -2,7 +2,7 @@
 * Update dependencies.
 
 ### Dependencies
-| Dependency |    Version     |
-|------------|:--------------:|
-| Kotlin     |    `1.9.0`     |
-| KSP        | `1.9.0-1.0.12` |
+| Dependency |     Version     |
+|------------|:---------------:|
+| Kotlin     |    `1.9.10`     |
+| KSP        | `1.9.10-1.0.13` |
