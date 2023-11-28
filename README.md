@@ -43,7 +43,7 @@ flowchart TD;
 1. Add KSP plugin to your module's `build.gradle.kts`:
 ```kotlin
 plugins {
-    id("com.google.devtools.ksp") version "1.9.0-1.0.12"
+    id("com.google.devtools.ksp") version "1.9.21-1.0.15"
 }
 ```
 2. Add `Maven Central` to the repositories blocks in your project's `build.gradle.kts`:
@@ -55,8 +55,8 @@ repositories {
 3. Add `trckr` dependencies:
 ```kotlin
 dependencies {
-    implementation("ru.cookedapp.trckr:trckr-core:1.1.3")
-    ksp("ru.cookedapp.trckr:trckr-processor:1.1.3")
+    implementation("ru.cookedapp.trckr:trckr-core:1.1.5")
+    ksp("ru.cookedapp.trckr:trckr-processor:1.1.5")
 }
 ```
 4. Add KSP source path:
@@ -66,7 +66,7 @@ To access generated code from KSP, you need to set up the source path into your 
 kotlin {
     // ...
     sourceSets.configureEach {
-        kotlin.srcDir("$buildDir/generated/ksp/$name/kotlin/")
+        kotlin.srcDir(layout.buildDirectory.dir("/generated/ksp/$name/kotlin/"))
     }
 }
 ```

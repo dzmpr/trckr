@@ -17,20 +17,16 @@ kotlin {
     }
 
     sourceSets {
-        getByName("jvmMain") {
-            dependencies {
-                implementation(project(":trckr-core"))
-                implementation(libs.ksp.api)
-                implementation(libs.bundles.kotlinpoet)
-            }
+        jvmMain.dependencies {
+            implementation(project(":trckr-core"))
+            implementation(libs.ksp.api)
+            implementation(libs.bundles.kotlinpoet)
         }
-        getByName("jvmTest") {
-            dependencies {
-                implementation(libs.kotlin.test)
-                implementation(libs.junit)
-                implementation(libs.mockk)
-                implementation(libs.bundles.compile.testing)
-            }
+        jvmTest.dependencies {
+            implementation(libs.kotlin.test)
+            implementation(libs.junit)
+            implementation(libs.mockk)
+            implementation(libs.bundles.compile.testing)
         }
     }
 }
