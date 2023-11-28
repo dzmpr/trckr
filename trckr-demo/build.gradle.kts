@@ -20,5 +20,5 @@ tasks.withType<KotlinCompile>().configureEach {
 }
 
 sourceSets.configureEach {
-    kotlin.srcDir("$buildDir/generated/ksp/$name/kotlin/")
+    kotlin.srcDir(layout.buildDirectory.dir("/generated/ksp/$name/kotlin/"))
 }
