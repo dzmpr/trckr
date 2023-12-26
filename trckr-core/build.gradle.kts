@@ -7,7 +7,7 @@ plugins {
 
 kotlin {
     // Targets
-
+    applyDefaultHierarchyTemplate()
     // JVM target
     jvm {
         compilations.all {
@@ -19,7 +19,7 @@ kotlin {
     }
     // JS target
     // TODO: Currently not support arrays in annotations
-    // js(BOTH) {
+    // js(IR) {
     //     browser()
     //     nodejs()
     // }
@@ -47,10 +47,8 @@ kotlin {
 
     // SourceSets
     sourceSets {
-        commonTest {
-            dependencies {
-                implementation(libs.kotlin.test)
-            }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
         }
     }
 }
