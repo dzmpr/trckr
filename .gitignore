@@ -167,3 +167,7 @@ local.properties
 ### Gradle Patch ###
 # Java heap dump
 *.hprof
+
+### Documentation ###
+site/
+docs/api
