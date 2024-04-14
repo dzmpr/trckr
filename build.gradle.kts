@@ -1,5 +1,3 @@
-import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
-
 plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.kotlin.jvm) apply false
@@ -8,16 +6,10 @@ plugins {
     alias(libs.plugins.binaryvalidator)
 }
 
-tasks.withType<DokkaMultiModuleTask>().named {
-    it.contains("Html")
-}.configureEach {
-    outputDirectory.set(rootProject.layout.projectDirectory.dir("docs/api"))
-}
-
 apiValidation {
     with(ignoredProjects) {
-        add("trckr-demo")
-        add("trckr-processor")
+        add(projects.trckrDemo.name)
+        add(projects.trckrProcessor.name)
     }
     nonPublicMarkers.add("ru.cookedapp.trckr.core.annotations.internal.TrckrInternal")
 }

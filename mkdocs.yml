@@ -67,7 +67,7 @@ markdown_extensions:
     permalink: true
     title: 'On this page'
 - pymdownx.highlight:
-    auto_title: true # Add codeblock language title
+    auto_title: true # Add code block language title
 - pymdownx.inlinehilite # Syntax highlighting of inline code blocks
 - pymdownx.superfences: # Allow nesting of code and content blocks inside each other
     custom_fences:
