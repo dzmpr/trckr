@@ -8,7 +8,7 @@ permissions:
   pages: write
 
 jobs:
-  publish:
+  publish-library:
     name: Publish artifacts
     runs-on: macos-latest
 
@@ -22,17 +22,17 @@ jobs:
         distribution: temurin
         java-version: 11
 
-    - name: Publish artifacts to maven central
-      run: ./gradlew publishAllPublicationsToMavenCentralRepository
-      env:
-        ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_USER }}
-        ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_PASS }}
-        ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}
-        ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASS }}
+#    - name: Publish artifacts to maven central
+#      run: ./gradlew publishAllPublicationsToMavenCentralRepository
+#      env:
+#        ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_USER }}
+#        ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_PASS }}
+#        ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}
+#        ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASS }}
 
   publish-documentation:
     name: Publish documentation
-    needs: publish
+    needs: [publish-library]
     runs-on: ubuntu-latest
 
     steps:
@@ -63,20 +63,20 @@ jobs:
 
         mkdocs gh-deploy --force
 
-#  release:
-#    name: Create github release
-#    needs: [publish, publish-documentation]
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#    - name: Checkout
-#      uses: actions/checkout@v4
-#
-#    - name: Read version
-#      run: |
-#        version=$(cat trckr.version | tr -d '\n')
-#        echo "version=$version" >> $GITHUB_ENV
-#
+  publish-release:
+    name: Create github release
+    needs: [publish-library, publish-documentation]
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Read version
+      run: |
+        version=$(cat trckr.version | tr -d '\n')
+        echo "version=$version" >> $GITHUB_ENV
+
 #    - name: Create release
 #      uses: softprops/action-gh-release@v1
 #      with:
