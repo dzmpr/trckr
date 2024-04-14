@@ -54,6 +54,11 @@ jobs:
       with:
         python-version: 3.12
 
+    - name: Configure git credentials
+      run: |
+        git config user.name github-actions[bot]
+        git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+
     - name: Build and upload docs
       run: |
         python3 -m venv venv
