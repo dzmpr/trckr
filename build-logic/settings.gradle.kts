@@ -1,7 +1,9 @@
+rootProject.name = "build-logic"
+
 dependencyResolutionManagement {
     // Configure repositories
     // TODO: find mystery 'ivy' repository
-    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
+    repositoriesMode = RepositoriesMode.PREFER_PROJECT
     repositories {
         gradlePluginPortal()
     }
