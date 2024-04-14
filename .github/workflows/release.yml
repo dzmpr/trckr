@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
 
 jobs:
@@ -59,7 +59,7 @@ jobs:
         python3 -m venv venv
         source venv/bin/activate
 
-        pip3 install -r docs-requirements.txt
+        pip3 install -r mkdocs-requirements.txt
 
         mkdocs build
 
