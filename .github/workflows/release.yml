@@ -33,7 +33,7 @@ jobs:
   publish-documentation:
     name: Publish documentation
     needs: [publish-library]
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
     - name: Checkout
@@ -52,12 +52,8 @@ jobs:
       run: |
         python3 -m venv venv
         source venv/bin/activate
-        
-        pip3 install \
-        mkdocs==1.5.3 \
-        mkdocs-material==9.5.17 \
-        mkdocs-material-extensions==1.3.1 \ 
-        mkdocs-minify-plugin==0.8.0 \
+
+        pip3 install -r docs-requirements.txt
 
         mkdocs build
 
@@ -66,7 +62,7 @@ jobs:
   publish-release:
     name: Create github release
     needs: [publish-library, publish-documentation]
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
     - name: Checkout
