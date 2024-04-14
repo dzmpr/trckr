@@ -1,0 +1,96 @@
+site_name: Trckr
+site_author: dzmpr
+site_description: Kotlin Symbol Processor to send analytics to multiple backends.
+site_url: https://dzmpr.github.com/trckr
+
+repo_name: dzmpr/trckr
+repo_url: https://github.com/dzmpr/trckr
+extra_css:
+  - stylesheets/extra.css
+
+copyright: 'Copyright &copy; 2022-2024 Dzmitry Pryskoka'
+
+# Mkdocs configuration
+theme:
+  name: 'material'
+  palette:
+  - media: "(prefers-color-scheme)"
+    toggle:
+      icon: material/brightness-auto
+      name: Switch to light mode
+
+  - media: "(prefers-color-scheme: light)"
+    scheme: default
+    primary: white
+    toggle:
+      icon: material/brightness-7
+      name: Switch to dark mode
+
+  - media: "(prefers-color-scheme: dark)"
+    scheme: slate
+    primary: black
+    toggle:
+      icon: material/brightness-4
+      name: Switch to system preference
+  features:
+  - navigation.path
+  - navigation.footer
+  - navigation.instant
+  - navigation.instant.progress
+  - toc.follow
+  font:
+    font: Roboto
+    code: JetBrains Mono
+  icon:
+    logo: fontawesome/solid/chart-simple
+    repo: fontawesome/brands/github
+
+# Navigation
+nav:
+- 'Overview': index.md
+- 'Setup': setup.md
+- 'Migrate to trckr': migrate_to_trckr.md
+- 'Advanced features': advanced_features.md
+- 'API ⏏': api/index.html
+
+# Plugins
+plugins:
+- minify:
+    minify_html: true
+- search:
+    lang: en
+
+# Extensions
+markdown_extensions:
+- admonition
+- toc:
+    permalink: true
+    title: 'On this page'
+- pymdownx.highlight:
+    auto_title: true # Add codeblock language title
+- pymdownx.inlinehilite # Syntax highlighting of inline code blocks
+- pymdownx.superfences: # Allow nesting of code and content blocks inside each other
+    custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+# Extra customization
+extra:
+  analytics:
+    provider: google
+    property: G-QCKZR2L49F
+    feedback:
+      title: Was this page helpful?
+      ratings:
+      - icon: material/heart
+        name: This page was helpful
+        data: 1
+        note: Thanks for your feedback!
+      - icon: material/heart-broken
+        name: This page could be improved
+        data: 0
+        note: >-
+          Thanks for your feedback! Help us improve this page by
+          <a href="https://github.com/dzmpr/trckr/issues/new/choose" target="_blank" rel="noopener">creating issue</a>
+          in a project repository.
