@@ -3,5 +3,6 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.publishing.plugin)
+    implementation(libs.pluginartifact.publishing)
+    implementation(libs.pluginartifact.dokka)
 }

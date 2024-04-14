@@ -1,4 +1,4 @@
-package ru.cookedapp.trckr.gradle
+package helpers
 
 private const val NUMBER_PART = "(0|[1-9]\\d*)"
 private const val VERSION_PART = "$NUMBER_PART\\.$NUMBER_PART\\.$NUMBER_PART"

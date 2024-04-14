@@ -5,14 +5,18 @@ import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSValueParameter
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.ksp.toClassName
 import com.squareup.kotlinpoet.withIndent
 import ru.cookedapp.trckr.core.annotations.Event
 import ru.cookedapp.trckr.core.annotations.Param
+import ru.cookedapp.trckr.core.annotations.data.TrackStrategy
+import ru.cookedapp.trckr.core.event.TrckrEvent
+import ru.cookedapp.trckr.core.param.TrckrParam
 import ru.cookedapp.trckr.processor.extensions.getAnnotation
 import ru.cookedapp.trckr.processor.extensions.getArgumentWithName
-import ru.cookedapp.trckr.processor.extensions.getSimpleName
 import ru.cookedapp.trckr.processor.extensions.name
+import ru.cookedapp.trckr.processor.helpers.Imports
 import ru.cookedapp.trckr.processor.helpers.addCodeBlock
 import ru.cookedapp.trckr.processor.helpers.addParameter
 import ru.cookedapp.trckr.processor.helpers.createFunction
@@ -21,8 +25,8 @@ internal class EventGenerator {
 
     fun generateEvent(
         method: KSFunctionDeclaration,
-        eventProcessorPropertyName: String,
-    ) = createFunction(method.simpleName.asString()) {
+        trackerCoreProperty: PropertySpec,
+    ) = createFunction(functionName = method.simpleName.asString()) {
         addModifiers(KModifier.OVERRIDE)
         method.parameters.forEach(::addParameter)
 
@@ -30,7 +34,7 @@ internal class EventGenerator {
         val annotatedName = annotation.getArgumentWithName<String>(Event.NAME_PROPERTY_NAME)
         val skippedAdapters = annotation.getArgumentWithName<ArrayList<KSType>>(Event.SKIP_ADAPTERS_PROPERTY_NAME)
         addCodeBlock {
-            addStatement("val event = TrckrEvent(")
+            addStatement("val event = %T(", TrckrEvent::class)
             withIndent {
                 addEventName(annotatedName, method)
                 addSkippedAdapters(skippedAdapters)
@@ -38,26 +42,26 @@ internal class EventGenerator {
             }
             addStatement(")")
         }
-        addStatement("${eventProcessorPropertyName}.track(event)")
+        addStatement("%N.track(event)", trackerCoreProperty)
     }
 
     private fun CodeBlock.Builder.addEventName(
         annotatedName: String,
         eventMethod: KSFunctionDeclaration,
     ) {
-        val eventName = annotatedName.takeIf { it.isNotBlank() }
+        val eventName = annotatedName.takeIf(String::isNotBlank)
         val methodName = eventMethod.simpleName.asString()
         addStatement("name = %S,", eventName ?: methodName)
     }
 
     private fun CodeBlock.Builder.addSkippedAdapters(adapters: ArrayList<KSType>) {
         if (adapters.isEmpty()) {
-            addStatement("skipAdapters = emptyList(),")
+            addStatement("skipAdapters = %M(),", Imports.emptyList)
         } else {
-            addStatement("skipAdapters = listOf(")
+            addStatement("skipAdapters = %M(", Imports.listOf)
             withIndent {
                 adapters.forEach { adapter ->
-                    addStatement("${adapter.getSimpleName()}::class,")
+                    addStatement("%T::class,", adapter.toClassName())
                 }
             }
             addStatement("),")
@@ -68,9 +72,9 @@ internal class EventGenerator {
         parameters: List<KSValueParameter>,
     ) {
         if (parameters.isEmpty()) {
-            addStatement("parameters = emptyList(),")
+            addStatement("parameters = %M(),", Imports.emptyList)
         } else {
-            addStatement("parameters = listOf(")
+            addStatement("parameters = %M(", Imports.listOf)
             withIndent {
                 parameters.forEach { parameter ->
                     addParameter(parameter)
@@ -89,12 +93,7 @@ internal class EventGenerator {
         val trackStrategyType = annotation.getArgumentWithName<KSType>(Param.STRATEGY_PROPERTY_NAME)
         // TODO: Is there a better way to get enum entry name?
         val trackStrategy = trackStrategyType.toClassName().simpleName
-        val parameterStatement = buildString {
-            append("TrckrParam(")
-            append("name = %S, ")
-            append("strategy = TrackStrategy.$trackStrategy, ")
-            append("value = ${parameter.name()}),")
-        }
-        addStatement(parameterStatement, parameterTrackName)
+        val parameterStatement = "%T(name = %S, strategy = %T.${trackStrategy}, value = ${parameter.name()}),"
+        addStatement(parameterStatement, TrckrParam::class, parameterTrackName, TrackStrategy::class)
     }
 }

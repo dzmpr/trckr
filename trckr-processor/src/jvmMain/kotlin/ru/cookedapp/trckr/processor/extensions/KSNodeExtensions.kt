@@ -23,9 +23,12 @@ internal fun KSClassDeclaration.toTypeName(
     typeArguments: List<KSTypeArgument> = emptyList(),
 ): TypeName = asType(typeArguments).toTypeName()
 
+/**
+ * Gets all declarations of [KSClassDeclaration] except [kotlin.Any] members.
+ */
 internal fun KSClassDeclaration.getAllDeclarations(): Sequence<KSDeclaration> {
-    val superTypeDeclarations = getAllSuperTypes().filter { ksType ->
-        !ksType.isAnyType()
+    val superTypeDeclarations = getAllSuperTypes().filterNot { ksType ->
+        ksType.isAnyType()
     }.flatMap { ksType ->
         (ksType.declaration as KSDeclarationContainer).declarations
     }
