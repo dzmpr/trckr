@@ -8,9 +8,7 @@ include("trckr-processor")
 include("trckr-demo")
 
 dependencyResolutionManagement {
-    // Configure repositories
-    // Use FAIL_ON_PROJECT_REPOS when https://youtrack.jetbrains.com/issue/KT-51379 will be fixed
-    repositoriesMode = RepositoriesMode.PREFER_PROJECT
+    repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
     repositories {
         mavenCentral()
     }
