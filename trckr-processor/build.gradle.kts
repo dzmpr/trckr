@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     id("trckr-artifact")
@@ -5,11 +7,9 @@ plugins {
 
 kotlin {
     jvm {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "1.8"
-                freeCompilerArgs += "-opt-in=ru.cookedapp.trckr.core.annotations.internal.TrckrInternal"
-            }
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_1_8
+            freeCompilerArgs.add("-opt-in=ru.cookedapp.trckr.core.annotations.internal.TrckrInternal")
         }
         testRuns["test"].executionTask.configure {
             useJUnitPlatform()
