@@ -113,6 +113,9 @@ fabric.properties
 .idea/**/azureSettings.xml
 
 ### Kotlin ###
+# Cache folder
+.kotlin/
+
 # Compiled class file
 *.class
 

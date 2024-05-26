@@ -51,7 +51,7 @@ More you can find at [advanced features](https://dzmpr.github.io/trckr/advanced_
 1. Add KSP plugin to your module's `build.gradle.kts`:
 ```kotlin
 plugins {
-    id("com.google.devtools.ksp") version "1.9.23-1.0.20"
+    id("com.google.devtools.ksp") version "2.0.0-1.0.21"
 }
 ```
 2. Add `Maven Central` to the repositories blocks in your project's `build.gradle.kts`:
@@ -63,8 +63,8 @@ repositories {
 3. Add `trckr` dependencies:
 ```kotlin
 dependencies {
-    implementation("ru.cookedapp.trckr:trckr-core:1.2.0")
-    ksp("ru.cookedapp.trckr:trckr-processor:1.2.0")
+    implementation("ru.cookedapp.trckr:trckr-core:1.2.1")
+    ksp("ru.cookedapp.trckr:trckr-processor:1.2.1")
 }
 ```
 4. Add KSP source path:

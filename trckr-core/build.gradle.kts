@@ -1,4 +1,4 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -10,8 +10,8 @@ kotlin {
     applyDefaultHierarchyTemplate()
     // JVM target
     jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = "1.8"
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_1_8
         }
         testRuns["test"].executionTask.configure {
             useJUnitPlatform()
@@ -51,8 +51,4 @@ kotlin {
             implementation(libs.kotlin.test)
         }
     }
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
 }

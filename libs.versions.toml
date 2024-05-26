@@ -1,12 +1,12 @@
 [versions]
-kotlin = "1.9.23"
-ksp = "1.9.23-1.0.20"
+kotlin = "2.0.0"
+ksp = "2.0.0-1.0.21"
 dokka = "1.9.20"
 kotlinpoet = "1.16.0"
 publishing = "0.28.0"
-mockk = "1.13.10"
+mockk = "1.13.11"
 junit = "5.10.2"
-compileTesting = "1.5.0"
+compileTesting = "1.6.0"
 binaryvalidator = "0.14.0"
 
 [libraries]
