@@ -6,7 +6,7 @@ kotlinpoet = "1.16.0"
 publishing = "0.28.0"
 mockk = "1.13.11"
 junit = "5.10.2"
-compileTesting = "1.5.0"
+compileTesting = "1.6.0"
 binaryvalidator = "0.14.0"
 
 [libraries]

@@ -18,15 +18,20 @@ kotlin {
 
     sourceSets {
         jvmMain.dependencies {
-            implementation(project(":trckr-core"))
+            implementation(projects.trckrCore)
             implementation(libs.ksp.api)
             implementation(libs.bundles.kotlinpoet)
         }
-        jvmTest.dependencies {
-            implementation(libs.kotlin.test)
-            implementation(libs.junit)
-            implementation(libs.mockk)
-            implementation(libs.bundles.compile.testing)
+        jvmTest {
+            compilerOptions {
+                freeCompilerArgs.add("-opt-in=org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi")
+            }
+            dependencies {
+                implementation(libs.kotlin.test)
+                implementation(libs.junit)
+                implementation(libs.mockk)
+                implementation(libs.bundles.compile.testing)
+            }
         }
     }
 }

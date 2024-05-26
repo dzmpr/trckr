@@ -6,8 +6,8 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":trckr-core"))
-    ksp(project(":trckr-processor"))
+    implementation(projects.trckrCore)
+    ksp(projects.trckrProcessor)
 }
 
 kotlin {
