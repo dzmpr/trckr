@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -6,7 +7,6 @@ plugins {
 }
 
 kotlin {
-    // Targets
     applyDefaultHierarchyTemplate()
     // JVM target
     jvm {
@@ -17,35 +17,42 @@ kotlin {
             useJUnitPlatform()
         }
     }
-    // JS target
-    // TODO: Currently not support arrays in annotations
-    // js(IR) {
-    //     browser()
-    //     nodejs()
-    // }
+    // JS targets
+    js(IR) {
+        browser()
+        nodejs()
+    }
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+        nodejs()
+    }
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmWasi {
+        nodejs()
+    }
     // iOS targets
     iosX64()
     iosArm64()
     iosSimulatorArm64()
     // watchOS targets
+    watchosX64()
     watchosArm32()
     watchosArm64()
-    watchosX64()
     watchosSimulatorArm64()
     // tvOS targets
-    tvosArm64()
     tvosX64()
+    tvosArm64()
     tvosSimulatorArm64()
     // macOS targets
     macosX64()
     macosArm64()
     // Linux targets
-    linuxArm64()
     linuxX64()
+    linuxArm64()
     // MinGW targets
     mingwX64()
 
-    // SourceSets
     sourceSets {
         commonTest.dependencies {
             implementation(libs.kotlin.test)

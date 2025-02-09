@@ -18,8 +18,8 @@ kotlinpoet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlin
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 junit = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-compile-testing = { module = "com.github.tschuchortdev:kotlin-compile-testing", version.ref = "compileTesting" }
-compile-testing-ksp = { module = "com.github.tschuchortdev:kotlin-compile-testing-ksp", version.ref = "compileTesting" }
+compile-testing = { module = "dev.zacsweers.kctfork:core", version.ref = "compileTesting" }
+compile-testing-ksp = { module = "dev.zacsweers.kctfork:ksp", version.ref = "compileTesting" }
 
 # Plugin artifacts
 pluginartifact-publishing = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "publishing" }

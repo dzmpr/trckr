@@ -1,5 +1,6 @@
 package ru.cookedapp.trckr.processor
 
+import com.tschuchort.compiletesting.JvmCompilationResult
 import com.tschuchort.compiletesting.KotlinCompilation
 import org.intellij.lang.annotations.Language
 import org.junit.jupiter.api.Test
@@ -21,15 +22,17 @@ class TrckrProcessorTrackerGenerationTest : BaseKspTest() {
                     @Event
                     fun event()
                 }
-            """
-        )
-        result finishedWith KotlinCompilation.ExitCode.OK
-        result.classLoader.loadClass("$PACKAGE.TestImpl")
+            """,
+        ) { result ->
+            result finishedWith KotlinCompilation.ExitCode.OK
+            result.classLoader.loadClass("$PACKAGE.TestImpl")
+        }
     }
 
     private fun testTrackerGeneration(
         @Language("kotlin") code: String,
-    ) = compileFilesWithGeneratedSources(
+        assertCompilationResult: (JvmCompilationResult) -> Unit,
+    ) = compileFiles(
         kspProcessorProvider = TrckrProcessorProvider(),
         ktSourceFile(
             buildString {
@@ -37,11 +40,13 @@ class TrckrProcessorTrackerGenerationTest : BaseKspTest() {
                 addImport<Tracker>()
                 addImport<Event>()
                 append(code.trimIndent())
-            }
-        )
+            },
+        ),
+        assertCompilationResult = assertCompilationResult,
     )
 
     companion object {
+
         private const val PACKAGE = "test"
     }
 }

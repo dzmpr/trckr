@@ -8,7 +8,8 @@ include("trckr-processor")
 include("trckr-demo")
 
 dependencyResolutionManagement {
-    repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
+    // Can't use now because kotlin loads nodeJs from https://nodejs.org/dist repository
+    // repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
     repositories {
         mavenCentral()
     }

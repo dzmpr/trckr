@@ -116,6 +116,9 @@ fabric.properties
 # Cache folder
 .kotlin/
 
+# JS cache
+kotlin-js-store/
+
 # Compiled class file
 *.class
 
@@ -172,4 +175,8 @@ local.properties
 *.hprof
 
 ### Documentation ###
+# Docs output
 site/
+
+# Python virtual environment
+venv/

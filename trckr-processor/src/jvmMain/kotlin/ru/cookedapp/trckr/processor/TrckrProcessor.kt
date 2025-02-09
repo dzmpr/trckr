@@ -25,12 +25,15 @@ import ru.cookedapp.trckr.processor.helpers.logError
 import ru.cookedapp.trckr.processor.helpers.logInfo
 
 class TrckrProcessor(
-    private val options: Map<String, String>,
-    codeGenerator: CodeGenerator,
     override val logger: KSPLogger,
+    private val isKsp2: Boolean,
+    codeGenerator: CodeGenerator,
 ) : SymbolProcessor, LoggerOwner {
 
-    private val generator = TrackerGenerator(codeGenerator)
+    private val generator = TrackerGenerator(
+        codeGenerator = codeGenerator,
+        isKsp2 = isKsp2,
+    )
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
         logInfo("Start trckr processing round.")
