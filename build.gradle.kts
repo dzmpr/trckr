@@ -22,4 +22,9 @@ apiValidation {
     }
 }
 
+dependencies {
+    dokka(projects.trckrCore)
+    dokka(projects.trckrProcessor)
+}
+
 fun MutableSet<String>.add(dependency: DelegatingProjectDependency) = add(dependency.name)

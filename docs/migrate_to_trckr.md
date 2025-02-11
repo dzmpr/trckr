@@ -46,8 +46,6 @@ In adapter, you could perform backend-specific events' manipulation. For example
 Consider you have simple multi-backend setup:
 
 ```kotlin
-import javax.sound.midi.Track
-
 // TrackerService.kt
 interface TrackerService {
 

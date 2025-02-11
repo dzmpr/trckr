@@ -16,7 +16,7 @@ repositories {
 }
 ```
 
-[KSP](https://github.com/google/ksp) is used to generate implementation code from your tracker declarations.
+[KSP](https://github.com/google/ksp) is used to generate implementation code from your tracker declarations. Both KSP1 and KSP2 are supported.
 
 Then you need to add **trckr** dependencies:
 

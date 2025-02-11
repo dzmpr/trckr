@@ -23,7 +23,7 @@ jobs:
         java-version: 11
 
     - name: Publish artifacts to maven central
-      run: ./gradlew publishAllPublicationsToMavenCentralRepository
+      run: ./gradlew -Porg.gradle.configuration-cache=false publishAllPublicationsToMavenCentralRepository
       env:
         ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_USER }}
         ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_PASS }}
@@ -47,14 +47,14 @@ jobs:
 
     - name: Run dokka
       run: |
-        ./gradlew dokkaHtmlMultiModule
+        ./gradlew dokkaGenerate
         # Move dokka documentation to docs/api directory
-        mv ./build/dokka/htmlMultiModule ./docs/api
+        mv ./build/dokka/html ./docs/api
 
     - name: Install python
       uses: actions/setup-python@v5
       with:
-        python-version: 3.12
+        python-version: 3.13
 
     - name: Configure git credentials
       run: |
@@ -87,7 +87,7 @@ jobs:
         echo "version=$version" >> $GITHUB_ENV
 
     - name: Create release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         body_path: ${{ github.workspace }}/changelog.md
         name: v${{ env.version }}
