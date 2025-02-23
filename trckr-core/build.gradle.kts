@@ -19,7 +19,13 @@ kotlin {
     }
     // JS targets
     js(IR) {
-        browser()
+        browser {
+            testTask {
+                useKarma {
+                    useChromeHeadless()
+                }
+            }
+        }
         nodejs()
     }
     @OptIn(ExperimentalWasmDsl::class)
