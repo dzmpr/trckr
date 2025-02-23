@@ -23,7 +23,7 @@ jobs:
         java-version: 11
 
     - name: Publish artifacts to maven central
-      run: ./gradlew -Porg.gradle.configuration-cache=false publishAllPublicationsToMavenCentralRepository
+      run: ./gradlew publishAllPublicationsToMavenCentralRepository --no-configuration-cache
       env:
         ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_USER }}
         ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_PASS }}
