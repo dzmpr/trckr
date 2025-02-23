@@ -1,0 +1,127 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, macosX64, mingwX64, tvosArm64, tvosSimulatorArm64, tvosX64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosSimulatorArm64, watchosX64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <ru.cookedapp.trckr:trckr-core>
+open annotation class ru.cookedapp.trckr.core.annotations/Event : kotlin/Annotation { // ru.cookedapp.trckr.core.annotations/Event|null[0]
+    constructor <init>(kotlin/String = ..., kotlin/Array<kotlin.reflect/KClass<out ru.cookedapp.trckr.core.adapter/TrackerAdapter>> = ...) // ru.cookedapp.trckr.core.annotations/Event.<init>|<init>(kotlin.String;kotlin.Array<kotlin.reflect.KClass<out|ru.cookedapp.trckr.core.adapter.TrackerAdapter>>){}[0]
+
+    final val name // ru.cookedapp.trckr.core.annotations/Event.name|{}name[0]
+        final fun <get-name>(): kotlin/String // ru.cookedapp.trckr.core.annotations/Event.name.<get-name>|<get-name>(){}[0]
+    final val skipAdapters // ru.cookedapp.trckr.core.annotations/Event.skipAdapters|{}skipAdapters[0]
+        final fun <get-skipAdapters>(): kotlin/Array<kotlin.reflect/KClass<out ru.cookedapp.trckr.core.adapter/TrackerAdapter>> // ru.cookedapp.trckr.core.annotations/Event.skipAdapters.<get-skipAdapters>|<get-skipAdapters>(){}[0]
+
+    final object Companion // ru.cookedapp.trckr.core.annotations/Event.Companion|null[0]
+}
+
+open annotation class ru.cookedapp.trckr.core.annotations/Param : kotlin/Annotation { // ru.cookedapp.trckr.core.annotations/Param|null[0]
+    constructor <init>(kotlin/String, ru.cookedapp.trckr.core.annotations.data/TrackStrategy = ...) // ru.cookedapp.trckr.core.annotations/Param.<init>|<init>(kotlin.String;ru.cookedapp.trckr.core.annotations.data.TrackStrategy){}[0]
+
+    final val name // ru.cookedapp.trckr.core.annotations/Param.name|{}name[0]
+        final fun <get-name>(): kotlin/String // ru.cookedapp.trckr.core.annotations/Param.name.<get-name>|<get-name>(){}[0]
+    final val strategy // ru.cookedapp.trckr.core.annotations/Param.strategy|{}strategy[0]
+        final fun <get-strategy>(): ru.cookedapp.trckr.core.annotations.data/TrackStrategy // ru.cookedapp.trckr.core.annotations/Param.strategy.<get-strategy>|<get-strategy>(){}[0]
+
+    final object Companion // ru.cookedapp.trckr.core.annotations/Param.Companion|null[0]
+}
+
+open annotation class ru.cookedapp.trckr.core.annotations/Tracker : kotlin/Annotation { // ru.cookedapp.trckr.core.annotations/Tracker|null[0]
+    constructor <init>() // ru.cookedapp.trckr.core.annotations/Tracker.<init>|<init>(){}[0]
+}
+
+final enum class ru.cookedapp.trckr.core.annotations.data/TrackStrategy : kotlin/Enum<ru.cookedapp.trckr.core.annotations.data/TrackStrategy> { // ru.cookedapp.trckr.core.annotations.data/TrackStrategy|null[0]
+    enum entry DEFAULT // ru.cookedapp.trckr.core.annotations.data/TrackStrategy.DEFAULT|null[0]
+    enum entry SKIP_IF_NULL // ru.cookedapp.trckr.core.annotations.data/TrackStrategy.SKIP_IF_NULL|null[0]
+    enum entry TRACK_NULL // ru.cookedapp.trckr.core.annotations.data/TrackStrategy.TRACK_NULL|null[0]
+
+    final val entries // ru.cookedapp.trckr.core.annotations.data/TrackStrategy.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<ru.cookedapp.trckr.core.annotations.data/TrackStrategy> // ru.cookedapp.trckr.core.annotations.data/TrackStrategy.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): ru.cookedapp.trckr.core.annotations.data/TrackStrategy // ru.cookedapp.trckr.core.annotations.data/TrackStrategy.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<ru.cookedapp.trckr.core.annotations.data/TrackStrategy> // ru.cookedapp.trckr.core.annotations.data/TrackStrategy.values|values#static(){}[0]
+}
+
+abstract interface ru.cookedapp.trckr.core.adapter/TrackerAdapter { // ru.cookedapp.trckr.core.adapter/TrackerAdapter|null[0]
+    abstract fun trackEvent(kotlin/String, kotlin.collections/Map<kotlin/String, kotlin/Any?>) // ru.cookedapp.trckr.core.adapter/TrackerAdapter.trackEvent|trackEvent(kotlin.String;kotlin.collections.Map<kotlin.String,kotlin.Any?>){}[0]
+}
+
+abstract interface ru.cookedapp.trckr.core.converter/ParameterConverter { // ru.cookedapp.trckr.core.converter/ParameterConverter|null[0]
+    abstract fun convert(kotlin/String, kotlin/String, kotlin/Any?): kotlin/Any? // ru.cookedapp.trckr.core.converter/ParameterConverter.convert|convert(kotlin.String;kotlin.String;kotlin.Any?){}[0]
+}
+
+abstract interface ru.cookedapp.trckr.core.converter/TypeConverter { // ru.cookedapp.trckr.core.converter/TypeConverter|null[0]
+    abstract fun convert(kotlin/Any?): kotlin/Any? // ru.cookedapp.trckr.core.converter/TypeConverter.convert|convert(kotlin.Any?){}[0]
+}
+
+abstract interface ru.cookedapp.trckr.core/TrckrCore { // ru.cookedapp.trckr.core/TrckrCore|null[0]
+    abstract fun track(ru.cookedapp.trckr.core.event/TrckrEvent) // ru.cookedapp.trckr.core/TrckrCore.track|track(ru.cookedapp.trckr.core.event.TrckrEvent){}[0]
+}
+
+abstract class ru.cookedapp.trckr.core.exceptions/TrckrException : kotlin/Throwable { // ru.cookedapp.trckr.core.exceptions/TrckrException|null[0]
+    constructor <init>() // ru.cookedapp.trckr.core.exceptions/TrckrException.<init>|<init>(){}[0]
+}
+
+final class ru.cookedapp.trckr.core.event/TrckrEvent { // ru.cookedapp.trckr.core.event/TrckrEvent|null[0]
+    constructor <init>(kotlin/String, kotlin.collections/List<kotlin.reflect/KClass<out ru.cookedapp.trckr.core.adapter/TrackerAdapter>>, kotlin.collections/List<ru.cookedapp.trckr.core.param/TrckrParam>) // ru.cookedapp.trckr.core.event/TrckrEvent.<init>|<init>(kotlin.String;kotlin.collections.List<kotlin.reflect.KClass<out|ru.cookedapp.trckr.core.adapter.TrackerAdapter>>;kotlin.collections.List<ru.cookedapp.trckr.core.param.TrckrParam>){}[0]
+
+    final val name // ru.cookedapp.trckr.core.event/TrckrEvent.name|{}name[0]
+        final fun <get-name>(): kotlin/String // ru.cookedapp.trckr.core.event/TrckrEvent.name.<get-name>|<get-name>(){}[0]
+    final val parameters // ru.cookedapp.trckr.core.event/TrckrEvent.parameters|{}parameters[0]
+        final fun <get-parameters>(): kotlin.collections/List<ru.cookedapp.trckr.core.param/TrckrParam> // ru.cookedapp.trckr.core.event/TrckrEvent.parameters.<get-parameters>|<get-parameters>(){}[0]
+    final val skipAdapters // ru.cookedapp.trckr.core.event/TrckrEvent.skipAdapters|{}skipAdapters[0]
+        final fun <get-skipAdapters>(): kotlin.collections/List<kotlin.reflect/KClass<out ru.cookedapp.trckr.core.adapter/TrackerAdapter>> // ru.cookedapp.trckr.core.event/TrckrEvent.skipAdapters.<get-skipAdapters>|<get-skipAdapters>(){}[0]
+
+    final fun component1(): kotlin/String // ru.cookedapp.trckr.core.event/TrckrEvent.component1|component1(){}[0]
+    final fun component2(): kotlin.collections/List<kotlin.reflect/KClass<out ru.cookedapp.trckr.core.adapter/TrackerAdapter>> // ru.cookedapp.trckr.core.event/TrckrEvent.component2|component2(){}[0]
+    final fun component3(): kotlin.collections/List<ru.cookedapp.trckr.core.param/TrckrParam> // ru.cookedapp.trckr.core.event/TrckrEvent.component3|component3(){}[0]
+    final fun copy(kotlin/String = ..., kotlin.collections/List<kotlin.reflect/KClass<out ru.cookedapp.trckr.core.adapter/TrackerAdapter>> = ..., kotlin.collections/List<ru.cookedapp.trckr.core.param/TrckrParam> = ...): ru.cookedapp.trckr.core.event/TrckrEvent // ru.cookedapp.trckr.core.event/TrckrEvent.copy|copy(kotlin.String;kotlin.collections.List<kotlin.reflect.KClass<out|ru.cookedapp.trckr.core.adapter.TrackerAdapter>>;kotlin.collections.List<ru.cookedapp.trckr.core.param.TrckrParam>){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.cookedapp.trckr.core.event/TrckrEvent.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.cookedapp.trckr.core.event/TrckrEvent.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // ru.cookedapp.trckr.core.event/TrckrEvent.toString|toString(){}[0]
+}
+
+final class ru.cookedapp.trckr.core.exceptions/TrckrBuilderException : ru.cookedapp.trckr.core.exceptions/TrckrException { // ru.cookedapp.trckr.core.exceptions/TrckrBuilderException|null[0]
+    constructor <init>(kotlin/String) // ru.cookedapp.trckr.core.exceptions/TrckrBuilderException.<init>|<init>(kotlin.String){}[0]
+
+    final val message // ru.cookedapp.trckr.core.exceptions/TrckrBuilderException.message|{}message[0]
+        final fun <get-message>(): kotlin/String // ru.cookedapp.trckr.core.exceptions/TrckrBuilderException.message.<get-message>|<get-message>(){}[0]
+}
+
+final class ru.cookedapp.trckr.core.exceptions/TrckrConversionException : ru.cookedapp.trckr.core.exceptions/TrckrException { // ru.cookedapp.trckr.core.exceptions/TrckrConversionException|null[0]
+    constructor <init>(kotlin/String, kotlin/String, kotlin/Any?) // ru.cookedapp.trckr.core.exceptions/TrckrConversionException.<init>|<init>(kotlin.String;kotlin.String;kotlin.Any?){}[0]
+
+    final fun toString(): kotlin/String // ru.cookedapp.trckr.core.exceptions/TrckrConversionException.toString|toString(){}[0]
+}
+
+final class ru.cookedapp.trckr.core.param/TrckrParam { // ru.cookedapp.trckr.core.param/TrckrParam|null[0]
+    constructor <init>(kotlin/String, ru.cookedapp.trckr.core.annotations.data/TrackStrategy, kotlin/Any?) // ru.cookedapp.trckr.core.param/TrckrParam.<init>|<init>(kotlin.String;ru.cookedapp.trckr.core.annotations.data.TrackStrategy;kotlin.Any?){}[0]
+
+    final val name // ru.cookedapp.trckr.core.param/TrckrParam.name|{}name[0]
+        final fun <get-name>(): kotlin/String // ru.cookedapp.trckr.core.param/TrckrParam.name.<get-name>|<get-name>(){}[0]
+    final val strategy // ru.cookedapp.trckr.core.param/TrckrParam.strategy|{}strategy[0]
+        final fun <get-strategy>(): ru.cookedapp.trckr.core.annotations.data/TrackStrategy // ru.cookedapp.trckr.core.param/TrckrParam.strategy.<get-strategy>|<get-strategy>(){}[0]
+    final val value // ru.cookedapp.trckr.core.param/TrckrParam.value|{}value[0]
+        final fun <get-value>(): kotlin/Any? // ru.cookedapp.trckr.core.param/TrckrParam.value.<get-value>|<get-value>(){}[0]
+
+    final fun component1(): kotlin/String // ru.cookedapp.trckr.core.param/TrckrParam.component1|component1(){}[0]
+    final fun component2(): ru.cookedapp.trckr.core.annotations.data/TrackStrategy // ru.cookedapp.trckr.core.param/TrckrParam.component2|component2(){}[0]
+    final fun component3(): kotlin/Any? // ru.cookedapp.trckr.core.param/TrckrParam.component3|component3(){}[0]
+    final fun copy(kotlin/String = ..., ru.cookedapp.trckr.core.annotations.data/TrackStrategy = ..., kotlin/Any? = ...): ru.cookedapp.trckr.core.param/TrckrParam // ru.cookedapp.trckr.core.param/TrckrParam.copy|copy(kotlin.String;ru.cookedapp.trckr.core.annotations.data.TrackStrategy;kotlin.Any?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.cookedapp.trckr.core.param/TrckrParam.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.cookedapp.trckr.core.param/TrckrParam.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // ru.cookedapp.trckr.core.param/TrckrParam.toString|toString(){}[0]
+}
+
+final class ru.cookedapp.trckr.core/TrckrBuilder { // ru.cookedapp.trckr.core/TrckrBuilder|null[0]
+    final fun addAdapter(ru.cookedapp.trckr.core.adapter/TrackerAdapter) // ru.cookedapp.trckr.core/TrckrBuilder.addAdapter|addAdapter(ru.cookedapp.trckr.core.adapter.TrackerAdapter){}[0]
+    final fun addParameterConverter(ru.cookedapp.trckr.core.converter/ParameterConverter) // ru.cookedapp.trckr.core/TrckrBuilder.addParameterConverter|addParameterConverter(ru.cookedapp.trckr.core.converter.ParameterConverter){}[0]
+    final fun addTypeConverter(ru.cookedapp.trckr.core.converter/TypeConverter) // ru.cookedapp.trckr.core/TrckrBuilder.addTypeConverter|addTypeConverter(ru.cookedapp.trckr.core.converter.TypeConverter){}[0]
+}
+
+final fun (ru.cookedapp.trckr.core/TrckrBuilder).ru.cookedapp.trckr.core.extensions/addAdapters(kotlin/Array<out ru.cookedapp.trckr.core.adapter/TrackerAdapter>...) // ru.cookedapp.trckr.core.extensions/addAdapters|addAdapters@ru.cookedapp.trckr.core.TrckrBuilder(kotlin.Array<out|ru.cookedapp.trckr.core.adapter.TrackerAdapter>...){}[0]
+final fun (ru.cookedapp.trckr.core/TrckrBuilder).ru.cookedapp.trckr.core.extensions/addConverters(kotlin/Array<out ru.cookedapp.trckr.core.converter/ParameterConverter>...) // ru.cookedapp.trckr.core.extensions/addConverters|addConverters@ru.cookedapp.trckr.core.TrckrBuilder(kotlin.Array<out|ru.cookedapp.trckr.core.converter.ParameterConverter>...){}[0]
+final fun (ru.cookedapp.trckr.core/TrckrBuilder).ru.cookedapp.trckr.core.extensions/addConverters(kotlin/Array<out ru.cookedapp.trckr.core.converter/TypeConverter>...) // ru.cookedapp.trckr.core.extensions/addConverters|addConverters@ru.cookedapp.trckr.core.TrckrBuilder(kotlin.Array<out|ru.cookedapp.trckr.core.converter.TypeConverter>...){}[0]
+final fun ru.cookedapp.trckr.core/createTrckr(kotlin/Function1<ru.cookedapp.trckr.core/TrckrBuilder, kotlin/Unit>): ru.cookedapp.trckr.core/TrckrCore // ru.cookedapp.trckr.core/createTrckr|createTrckr(kotlin.Function1<ru.cookedapp.trckr.core.TrckrBuilder,kotlin.Unit>){}[0]

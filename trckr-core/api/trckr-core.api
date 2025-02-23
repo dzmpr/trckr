@@ -18,8 +18,6 @@ public abstract interface class ru/cookedapp/trckr/core/adapter/TrackerAdapter {
 
 public abstract interface annotation class ru/cookedapp/trckr/core/annotations/Event : java/lang/annotation/Annotation {
 	public static final field Companion Lru/cookedapp/trckr/core/annotations/Event$Companion;
-	public static final field NAME_PROPERTY_NAME Ljava/lang/String;
-	public static final field SKIP_ADAPTERS_PROPERTY_NAME Ljava/lang/String;
 	public abstract fun name ()Ljava/lang/String;
 	public abstract fun skipAdapters ()[Ljava/lang/Class;
 }
@@ -29,8 +27,6 @@ public final class ru/cookedapp/trckr/core/annotations/Event$Companion {
 
 public abstract interface annotation class ru/cookedapp/trckr/core/annotations/Param : java/lang/annotation/Annotation {
 	public static final field Companion Lru/cookedapp/trckr/core/annotations/Param$Companion;
-	public static final field NAME_PROPERTY_NAME Ljava/lang/String;
-	public static final field STRATEGY_PROPERTY_NAME Ljava/lang/String;
 	public abstract fun name ()Ljava/lang/String;
 	public abstract fun strategy ()Lru/cookedapp/trckr/core/annotations/data/TrackStrategy;
 }

@@ -8,7 +8,7 @@ repo_url: https://github.com/dzmpr/trckr
 extra_css:
   - stylesheets/extra.css
 
-copyright: 'Copyright &copy; 2022-2024 Dzmitry Pryskoka'
+copyright: 'Copyright &copy; 2022-2025 Dzmitry Pryskoka'
 
 # Mkdocs configuration
 theme:

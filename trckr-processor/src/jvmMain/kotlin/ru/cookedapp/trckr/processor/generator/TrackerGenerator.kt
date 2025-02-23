@@ -20,9 +20,12 @@ import ru.cookedapp.trckr.processor.helpers.createFile
 import ru.cookedapp.trckr.processor.helpers.createLambda
 import ru.cookedapp.trckr.processor.helpers.createParameter
 
-internal class TrackerGenerator(private val codeGenerator: CodeGenerator) : KSVisitorVoid() {
+internal class TrackerGenerator(
+    private val codeGenerator: CodeGenerator,
+    isKsp2: Boolean,
+) : KSVisitorVoid() {
 
-    private val eventGenerator = EventGenerator()
+    private val eventGenerator = EventGenerator(isKsp2)
 
     override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {
         val trackerName = classDeclaration.simpleName.asString()

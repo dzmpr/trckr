@@ -130,19 +130,6 @@ class TrckrProcessorTrackerValidationTest : BaseKspTest() {
     )
 
     @Test
-    fun `should fail when tracker contains typealias declaration`() = testTrckrProcessor(
-        code = """
-            @Tracker
-            interface $defaultTrackerName {
-                
-                typealias IntAlias = Int
-            }
-        """,
-        expectedCode = KotlinCompilation.ExitCode.COMPILATION_ERROR,
-        expectedMessage = ErrorMessage.incorrectTrackerInnerDeclaration(defaultTrackerName),
-    )
-
-    @Test
     fun `should fail when tracker contains property declaration`() = testTrckrProcessor(
         code = """
             @Tracker
@@ -250,12 +237,16 @@ class TrckrProcessorTrackerValidationTest : BaseKspTest() {
                 append(code.trimIndent())
             }
         )
-        val result = compileFiles(kspProcessorProvider = TrckrProcessorProvider(), file)
-        result finishedWith expectedCode
-        if (expectedMessage != null) {
-            result hasMessage expectedMessage
-        } else {
-            result.hasNoKspErrors()
+        compileFiles(
+            kspProcessorProvider = TrckrProcessorProvider(),
+            file,
+        ) { result ->
+            result finishedWith expectedCode
+            if (expectedMessage != null) {
+                result hasMessage expectedMessage
+            } else {
+                result.hasNoKspErrors()
+            }
         }
     }
 }
