@@ -1,4 +1,3 @@
-import com.vanniktech.maven.publish.SonatypeHost
 import helpers.isVersionStringValid
 
 plugins {
@@ -18,7 +17,7 @@ group = "ru.cookedapp.trckr"
 version = trckrVersion
 
 mavenPublishing {
-    publishToMavenCentral(host = SonatypeHost.S01, automaticRelease = true)
+    publishToMavenCentral(automaticRelease = true)
     signAllPublications()
 
     pom {

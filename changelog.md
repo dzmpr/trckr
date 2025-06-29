@@ -1,10 +1,8 @@
 ### Changelog
 * Update Kotlin and KSP.
-* Added KSP2 support.
-* Added js, wasmJs and wasmWasi targets support.
 
 ### Dependencies
-| Dependency |     Version      |
-|------------|:----------------:|
-| Kotlin     |     `2.1.10`     |
-| KSP        | `2.10.10-1.0.30` |
+| Dependency |    Version    |
+|------------|:-------------:|
+| Kotlin     |    `2.2.0`    |
+| KSP        | `2.2.0-2.0.2` |
