@@ -1,5 +1,5 @@
 [versions]
-kotlin = "2.2.0"
+kotlin = "2.3.21"
 ksp = "2.2.0-2.0.2"
 dokka = "2.0.0"
 kotlinpoet = "2.2.0"
@@ -7,7 +7,6 @@ publishing = "0.33.0"
 mockk = "1.14.4"
 junit = "5.13.2"
 compileTesting = "0.7.1"
-binaryvalidator = "0.18.0"
 
 [libraries]
 ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
@@ -33,5 +32,4 @@ kotlinpoet = ["kotlinpoet", "kotlinpoet-ksp"]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-binaryvalidator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryvalidator" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
