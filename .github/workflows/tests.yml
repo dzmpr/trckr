@@ -11,16 +11,16 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
-    - name: Set up JDK 11
-      uses: actions/setup-java@v4
+    - name: Set up JDK 17
+      uses: actions/setup-java@v5
       with:
         distribution: temurin
-        java-version: 11
+        java-version: 17
 
     - name: Check public API
-      run: ./gradlew apiCheck
+      run: ./gradlew checkKotlinAbi
 
     - name: Run tests
       run: ./gradlew allTests

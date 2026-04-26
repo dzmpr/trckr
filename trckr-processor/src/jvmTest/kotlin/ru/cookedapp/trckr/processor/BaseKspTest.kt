@@ -13,33 +13,17 @@ abstract class BaseKspTest {
         vararg files: SourceFile,
         assertCompilationResult: (JvmCompilationResult) -> Unit,
     ) {
-        val ksp1Result = compileFilesInternal(
-            kspProcessorProvider = kspProcessorProvider,
-            useKsp2 = false,
-            files = files,
-        )
-        assertCompilationResult(ksp1Result)
-        val ksp2Result = compileFilesInternal(
-            kspProcessorProvider = kspProcessorProvider,
-            useKsp2 = true,
-            files = files,
-        )
-        assertCompilationResult(ksp2Result)
-    }
+        val compilationResult = KotlinCompilation().apply {
+            sources = files.toList()
+            inheritClassPath = true
+            messageOutputStream = System.out
+            configureKsp {
+                incremental = true
+                withCompilation = true
+                symbolProcessorProviders += listOf(kspProcessorProvider)
+            }
+        }.compile()
 
-    private fun compileFilesInternal(
-        kspProcessorProvider: SymbolProcessorProvider,
-        useKsp2: Boolean,
-        vararg files: SourceFile,
-    ) = KotlinCompilation().apply {
-        sources = files.toList()
-        inheritClassPath = true
-        languageVersion = if (useKsp2) null else "1.9"
-        messageOutputStream = System.out
-        configureKsp(useKsp2) {
-            incremental = true
-            withCompilation = true
-            symbolProcessorProviders += listOf(kspProcessorProvider)
-        }
-    }.compile()
+        assertCompilationResult(compilationResult)
+    }
 }

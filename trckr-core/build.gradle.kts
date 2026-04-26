@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -42,22 +43,34 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
     // watchOS targets
-    watchosX64()
     watchosArm32()
     watchosArm64()
     watchosSimulatorArm64()
     // tvOS targets
-    tvosX64()
     tvosArm64()
     tvosSimulatorArm64()
     // macOS targets
-    macosX64()
     macosArm64()
     // Linux targets
     linuxX64()
     linuxArm64()
     // MinGW targets
     mingwX64()
+
+    @OptIn(ExperimentalAbiValidation::class)
+    abiValidation {
+        enabled = true
+
+        klib {
+            enabled = true
+        }
+
+        filters {
+            exclude {
+                annotatedWith.add("ru.cookedapp.trckr.core.annotations.internal.TrckrInternal")
+            }
+        }
+    }
 
     sourceSets {
         commonTest.dependencies {
