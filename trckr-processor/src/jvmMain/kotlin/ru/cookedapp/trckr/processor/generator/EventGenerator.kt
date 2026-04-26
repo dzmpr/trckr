@@ -22,9 +22,7 @@ import ru.cookedapp.trckr.processor.helpers.addCodeBlock
 import ru.cookedapp.trckr.processor.helpers.addParameter
 import ru.cookedapp.trckr.processor.helpers.createFunction
 
-internal class EventGenerator(
-    private val isKsp2: Boolean,
-) {
+internal class EventGenerator {
 
     fun generateEvent(
         method: KSFunctionDeclaration,
@@ -93,11 +91,7 @@ internal class EventGenerator(
     ) {
         val annotation = parameter.getAnnotation<Param>()
         val parameterTrackName = annotation.getArgumentWithName<String>(Param.NAME_PROPERTY_NAME)
-        val trackStrategyTypeClassName = if (isKsp2) {
-            annotation.getArgumentWithName<KSClassDeclaration>(Param.STRATEGY_PROPERTY_NAME).toClassName()
-        } else {
-            annotation.getArgumentWithName<KSType>(Param.STRATEGY_PROPERTY_NAME).toClassName()
-        }
+        val trackStrategyTypeClassName = annotation.getArgumentWithName<KSClassDeclaration>(Param.STRATEGY_PROPERTY_NAME).toClassName()
         // TODO: Is there a better way to get enum entry name?
         val trackStrategy = trackStrategyTypeClassName.simpleName
         val parameterStatement = "%T(name = %S, strategy = %T.${trackStrategy}, value = ${parameter.name()}),"
