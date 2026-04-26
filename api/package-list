@@ -1,0 +1,15 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+
+module:trckr-core
+ru.cookedapp.trckr.core
+ru.cookedapp.trckr.core.adapter
+ru.cookedapp.trckr.core.annotations
+ru.cookedapp.trckr.core.annotations.data
+ru.cookedapp.trckr.core.converter
+ru.cookedapp.trckr.core.event
+ru.cookedapp.trckr.core.exceptions
+ru.cookedapp.trckr.core.extensions
+ru.cookedapp.trckr.core.param
+module:trckr-processor
+ru.cookedapp.trckr.processor
