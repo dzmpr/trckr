@@ -47,7 +47,7 @@ jobs:
 
     - name: Run dokka
       run: |
-        ./gradlew dokkaGenerate
+        ./gradlew :dokkaGenerate
         # Move dokka documentation to docs/api directory
         mv ./build/dokka/html ./docs/api
 
